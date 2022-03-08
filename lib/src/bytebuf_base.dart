@@ -494,6 +494,7 @@ abstract class ByteBuf with IterableMixin {
     for (int i = 0; i < data.length; i++) {
       buf[i] = data[i];
     }
+    buf.writerIndex = data.length;
     return buf;
   }
 }
