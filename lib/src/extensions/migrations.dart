@@ -3,7 +3,11 @@ part of '../extensions.dart';
 extension Uint8ListMigrationExtension on Uint8List {
 
   /// Migrates this list by wrapping it using [ListBuffer]
-  ByteBuf get asWrappedBuffer => ListBuffer(this);
+  ByteBuf get asWrappedBuffer {
+    var buffer = ListBuffer(this);
+    buffer.writerIndex = length;
+    return buffer;
+  }
 
 }
 

@@ -6,6 +6,20 @@ import 'package:duffer/duffer.dart';
 import 'package:test/test.dart';
 
 void main() {
+  group("Migrate", () {
+    test("As Buffer", () {
+      var list = List.filled(4, 0x01);
+      var buffer = list.asBuffer;
+      expect(list, buffer.readAvailableBytes());
+    });
+
+    test("As Wrapped Buffer", () {
+      var list = List.filled(4, 0x01).uint8List;
+      var buffer = list.asWrappedBuffer;
+      expect(list, buffer.readAvailableBytes());
+    });
+  });
+  
   group('Buffer Read Write', () {
     final byteBuf = Unpooled.fixed(8);
 
