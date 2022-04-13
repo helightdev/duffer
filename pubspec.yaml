@@ -1,6 +1,7 @@
 name: duffer
 description: Support for using buffers in a netty-inspired way
 version: 1.0.0
+repository: https://github.com/helightdev/duffer
 
 environment:
   sdk: '>=2.14.3 <3.0.0'
