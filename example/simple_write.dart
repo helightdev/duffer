@@ -1,10 +1,10 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:duffer/duffer.dart';
 
 void main() {
   var buffer = Unpooled.buffer();
   buffer.writeLPString("Hello World!");
-  print(buffer.readLPString());
+  buffer.writeInt32(42);
+
+  print(buffer.readLPString()); // Hello World!
+  print(buffer.readInt32()); // 42
 }

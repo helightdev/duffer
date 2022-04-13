@@ -8,5 +8,8 @@ export 'src/extensions.dart';
 export 'src/pooled.dart';
 export 'src/unpooled.dart';
 
+export 'src/serialization/pickle.dart';
+
 export 'src/utils/constants.dart';
 export 'src/utils/migration_utils.dart';
+export 'src/utils/sizes.dart';

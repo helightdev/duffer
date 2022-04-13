@@ -223,12 +223,7 @@ abstract class ByteBuf with IterableMixin {
 
   // TODO: Documentation
   ByteData setByteData(int index, int length) {
-    assertWriteable(index, length);
-    try {
-      return viewByteData(index, length);
-    } finally {
-      writerIndex += length;
-    }
+    return viewByteData(index, length);
   }
 
   /// Writes the [bytes] at the current [writerIndex] (inclusive)
@@ -442,6 +437,12 @@ abstract class ByteBuf with IterableMixin {
   /// Sets the [writeMarker] to [writerIndex].
   void markWriterIndex() => writeMarker = writerIndex;
 
+  /// Creates a read marker which doesn't depend on the buffers own markers
+  LinkedReadMarker createReadMarker() => LinkedReadMarker(this, readerIndex);
+
+  /// Creates a write marker which doesn't depend on the buffers own markers
+  LinkedWriteMarker createWriteMarker() => LinkedWriteMarker(this, writerIndex);
+
   /// Sets both [readerIndex] and [writerIndex] to 0.
   ///
   /// ----
@@ -496,5 +497,47 @@ abstract class ByteBuf with IterableMixin {
     }
     buf.writerIndex = data.length;
     return buf;
+  }
+}
+
+class LinkedWriteMarker {
+  final ByteBuf _delegate;
+  int _index;
+  LinkedWriteMarker(this._delegate, this._index);
+
+  /// Manually sets the marker index
+  void set(int i) {
+    _index = i;
+  }
+
+  /// Sets the marker to the current [ByteBuf.writerIndex]
+  void update() {
+    _index = _delegate.writerIndex;
+  }
+
+  /// Sets the [ByteBuf.writerIndex] to the markers position
+  void jump() {
+    _delegate.writerIndex = _index;
+  }
+}
+
+class LinkedReadMarker {
+  ByteBuf _delegate;
+  int _index;
+  LinkedReadMarker(this._delegate, this._index);
+
+  /// Manually sets the marker index
+  void set(int i) {
+    _index = i;
+  }
+
+  /// Sets the marker to the current [ByteBuf.readerIndex]
+  void update() {
+    _index = _delegate.readerIndex;
+  }
+
+  /// Sets the [ByteBuf.readerIndex] to the markers position
+  void jump() {
+    _delegate.readerIndex = _index;
   }
 }

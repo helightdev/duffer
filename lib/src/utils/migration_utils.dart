@@ -10,7 +10,7 @@ class MigrationUtils {
 
   static ByteData migrate(ByteData original, int newCapacity) {
     var delta = newCapacity - original.lengthInBytes;
-    if (delta < 0) throw Exception("Shrinking buffers is currently not supped");
+    if (delta < 0) throw UnimplementedError("Shrinking buffers is currently not supped");
     var data = ByteData(newCapacity);
     for (var i = 0; i < original.lengthInBytes; i++) {
       data.setUint8(i, original.getUint8(i));

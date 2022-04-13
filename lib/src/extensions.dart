@@ -9,4 +9,5 @@ part 'extensions/get_set.dart';
 part 'extensions/read_write.dart';
 part 'extensions/logging.dart';
 part 'extensions/qol.dart';
+part 'extensions/encoding.dart';
 part 'extensions/migrations.dart';
