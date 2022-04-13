@@ -1,6 +1,6 @@
 name: duffer
 description: Support for using buffers in a netty-inspired way
-version: 0.0.1
+version: 1.0.0
 
 environment:
   sdk: '>=2.14.3 <3.0.0'
