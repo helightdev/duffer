@@ -348,7 +348,21 @@ abstract class ByteBuf with IterableMixin {
   /// Reads all available bytes into a [Uint8List]
   Uint8List readAvailableBytes() => readBytes(readableBytes);
 
-  // TODO: Documentation
+  /// Reads all available bytes into a [Uint8List] without incrementing
+  /// the reader index
+  Uint8List peekAvailableBytes() => getBytes(readerIndex, readableBytes);
+
+  /// Reads [length] bytes beginning at [index] (inclusive) into
+  /// a [Uint8List]
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [ReadIndexOutOfRangeException] if the current
+  /// reader index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverreadException] if the length
+  /// of the [readerIndex] + length is outside of the
+  /// bounds of the buffer
   Uint8List getBytes(int index, int length) {
     assertReadable(index, length);
     var list = Uint8List(length);

@@ -1,16 +1,12 @@
-import 'dart:collection';
-
 import 'bytebuf_base.dart';
 
+//TODO: Add tests, this is untested but should work now as intended probably
 class ByteBufIterator extends Iterator<int> {
 
   ByteBuf buffer;
   int index = 0;
-  int length = 0;
 
-  ByteBufIterator(this.buffer) {
-    length = buffer.capacity();
-  }
+  ByteBufIterator(this.buffer);
 
   @override
   int get current => buffer[index];
@@ -18,7 +14,7 @@ class ByteBufIterator extends Iterator<int> {
   @override
   bool moveNext() {
     index++;
-    if (index < length) {
+    if (index < buffer.writerIndex) {
       return true;
     }
     return false;
