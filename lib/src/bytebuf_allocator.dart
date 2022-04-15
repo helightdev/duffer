@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'bytebuf_base.dart';
 
 abstract class ByteBufAllocator {

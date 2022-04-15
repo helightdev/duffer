@@ -15,10 +15,12 @@ class BufferReleasedException implements BufferException {
 }
 
 class BufferOverflowException implements BufferException {
+  @override
   String get message => "Write operation overflows buffer";
 }
 
 class BufferOverreadException implements BufferException {
+  @override
   String get message => "Read operation overflows buffer";
 }
 
@@ -34,6 +36,5 @@ class WriteIndexOutOfRangeException implements BufferException {
 
 class BufferConstrainedException implements BufferException {
   @override
-  String get message =>
-      "Can't allocate more heap because of buffer constraints";
+  String get message => "Can't allocate more heap because of buffer constraints";
 }

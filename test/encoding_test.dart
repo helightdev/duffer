@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:duffer/duffer.dart';
 import 'package:test/test.dart';
 
