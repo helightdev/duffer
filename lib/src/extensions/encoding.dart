@@ -10,12 +10,7 @@ extension ByteBufEncoding on ByteBuf {
   /// ```
   ///SGVsbG8gV29ybGQ=
   /// ```
-  String get base64 {
-    var marker = createReadMarker();
-    var data = readAvailableBytes();
-    marker.jump();
-    return base64Encode(data);
-  }
+  String get base64 => base64Encode(peekAvailableBytes());
 
   /// Encodes the buffers readable bytes in hex while not updating the [ByteBuf.readerIndex]
   /// or resetting user markers
@@ -25,11 +20,6 @@ extension ByteBufEncoding on ByteBuf {
   /// ```
   ///0000000b48656c6c6f20576f726c64
   /// ```
-  String get hex {
-    var marker = createReadMarker();
-    var data = readAvailableBytes();
-    marker.jump();
-    return data.hexdump;
-  }
+  String get hex => peekAvailableBytes().hexdump;
 
 }
