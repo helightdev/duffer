@@ -3,9 +3,10 @@ part of '../extensions.dart';
 List<int> hexDecode(String string) {
   var bytes = List<int>.empty(growable: true);
   var unformatted = string.replaceAll(" ", "").toLowerCase();
-  if (unformatted.length % 2 != 0)
+  if (unformatted.length % 2 != 0) {
     throw FormatException(
         "Length of an unformatted hex string has to be a multiple of 2");
+  }
   for (var i = 0; i < unformatted.length; i += 2) {
     bytes.add(int.parse(unformatted.substring(i, i + 2), radix: 16));
   }

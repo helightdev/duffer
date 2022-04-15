@@ -96,7 +96,6 @@ abstract class ByteBuf {
   /// is outside the bounds of the buffer.
   void updateByte(int index, int byte);
 
-
   //region Data Access
   /// Sets the byte at [index] to [byte].
   ///
