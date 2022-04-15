@@ -3,9 +3,7 @@ import '../impl/heap_buffer.dart';
 import '../impl/allocated_buffer.dart';
 import '../utils/sum.dart';
 
-
 class InstantRestructuringAllocator extends ByteBufAllocator {
-
   final HeapBuffer _backing;
   List<FixedAllocatedBuffer> children = List.empty(growable: true);
 
@@ -23,7 +21,8 @@ class InstantRestructuringAllocator extends ByteBufAllocator {
   void release(ReleasableByteBuf child) {
     var removedIndex = children.indexOf(child as FixedAllocatedBuffer);
     var removedBytes = child.capacity();
-    var precedingBytes = children.take(removedIndex).map((e) => e.capacity()).sum();
+    var precedingBytes =
+        children.take(removedIndex).map((e) => e.capacity()).sum();
     var succeedingBuffers = children.skip(removedIndex + 1);
     var succeedingBytes = succeedingBuffers.map((e) => e.capacity()).sum();
 
@@ -35,7 +34,8 @@ class InstantRestructuringAllocator extends ByteBufAllocator {
         _backing.setByte(precedingBytes + i, _backing.getByte(prb + i));
       }
       for (var value in succeedingBuffers) {
-        value.data = _backing.viewByteData(value.data.offsetInBytes - removedBytes, value.capacity());
+        value.data = _backing.viewByteData(
+            value.data.offsetInBytes - removedBytes, value.capacity());
       }
       children.removeAt(removedIndex);
     }

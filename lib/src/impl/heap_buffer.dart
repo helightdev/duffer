@@ -5,7 +5,6 @@ import '../extensions.dart';
 import '../utils/migration_utils.dart';
 
 class HeapBuffer extends ByteBuf {
-
   ByteData data;
 
   bool _isGrowableInternal = true;
@@ -38,7 +37,8 @@ class HeapBuffer extends ByteBuf {
   Uint8List array() => data.uint8list;
 
   @override
-  ByteData viewByteData(int index, int length) => ByteData.sublistView(data, index, index + length);
+  ByteData viewByteData(int index, int length) =>
+      ByteData.sublistView(data, index, index + length);
 
   @override
   HeapBuffer getBuffer(int index, int length) {

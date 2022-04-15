@@ -3,10 +3,9 @@ part of '../extensions.dart';
 /// Default extensions on [ByteBuf] for reading and writing
 /// data based on the [readerIndex] and [writerIndex].
 extension ReadWriteExtension on ByteBuf {
-
   /// Writes the [value] as a 8 byte long signed integer
   /// at the current [writerIndex] (inclusive).
-  /// 
+  ///
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
@@ -18,7 +17,7 @@ extension ReadWriteExtension on ByteBuf {
 
   /// Reads the next 8 bytes as a signed integer
   /// at the current [readerIndex] (inclusive).
-  /// 
+  ///
   /// ----
   /// Exceptions:
   /// * [ReadIndexOutOfRangeException] if the current
@@ -31,7 +30,7 @@ extension ReadWriteExtension on ByteBuf {
 
   /// Writes the [value] as a 4 byte long signed integer
   /// at the current [writerIndex] (inclusive).
-  /// 
+  ///
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
@@ -56,7 +55,7 @@ extension ReadWriteExtension on ByteBuf {
 
   /// Writes the [value] as a 2 byte long signed integer
   /// at the current [writerIndex] (inclusive).
-  /// 
+  ///
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
@@ -81,7 +80,7 @@ extension ReadWriteExtension on ByteBuf {
 
   /// Writes the [value] as a 8 byte long unsigned integer
   /// at the current [writerIndex] (inclusive).
-  /// 
+  ///
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
@@ -103,10 +102,10 @@ extension ReadWriteExtension on ByteBuf {
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
   int readUint64() => readByteData(8).getUint64(0);
-  
+
   /// Writes the [value] as a 4 byte long unsigned integer
   /// at the current [writerIndex] (inclusive).
-  /// 
+  ///
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
@@ -131,7 +130,7 @@ extension ReadWriteExtension on ByteBuf {
 
   /// Writes the [value] as a 2 byte long unsigned integer
   /// at the current [writerIndex] (inclusive).
-  /// 
+  ///
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
@@ -217,7 +216,8 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
   void writeLPString(String value, [Encoding? encoding]) {
-    var bytes = Uint8List.fromList((encoding??utf8Encoding).encode(value)); // Maybe fix double allocation?
+    var bytes = Uint8List.fromList((encoding ?? utf8Encoding)
+        .encode(value)); // Maybe fix double allocation?
     writeInt32(bytes.length);
     writeBytes(bytes);
   }
@@ -239,7 +239,7 @@ extension ReadWriteExtension on ByteBuf {
   String readLPString([Encoding? encoding]) {
     int length = readInt32();
     var bytes = readBytes(length);
-    return (encoding??utf8Encoding).decode(bytes);
+    return (encoding ?? utf8Encoding).decode(bytes);
   }
 
   /// Encodes the [bytes] using [canonical base64](https://datatracker.ietf.org/doc/html/rfc4648)

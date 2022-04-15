@@ -1,7 +1,6 @@
 import 'package:duffer/duffer.dart';
 
 abstract class Pickler<T> {
-
   final String id;
   int peekSize(T object);
   void pickle(ByteBuf buf, T object);
@@ -9,8 +8,16 @@ abstract class Pickler<T> {
 
   const Pickler(this.id);
 
-  factory Pickler.create({required PickleFun<T> pickle, required UnpickleFun<T> unpickle, SizeFun<T>? size, String? name}) {
-    return PicklerImpl<T>(pickleFun: pickle, unpickleFun: unpickle, sizeFun: size, name: name ?? "unknown");
+  factory Pickler.create(
+      {required PickleFun<T> pickle,
+      required UnpickleFun<T> unpickle,
+      SizeFun<T>? size,
+      String? name}) {
+    return PicklerImpl<T>(
+        pickleFun: pickle,
+        unpickleFun: unpickle,
+        sizeFun: size,
+        name: name ?? "unknown");
   }
 }
 
@@ -19,12 +26,16 @@ typedef UnpickleFun<T> = T Function(ByteBuf);
 typedef SizeFun<T> = int Function(T);
 
 class PicklerImpl<T> extends Pickler<T> {
-
   final PickleFun<T> pickleFun;
   final UnpickleFun<T> unpickleFun;
   final SizeFun<T>? sizeFun;
 
-  const PicklerImpl({required this.pickleFun, required this.unpickleFun, this.sizeFun, name = "unknown"}) : super(name);
+  const PicklerImpl(
+      {required this.pickleFun,
+      required this.unpickleFun,
+      this.sizeFun,
+      name = "unknown"})
+      : super(name);
 
   @override
   int peekSize(T object) {
@@ -49,20 +60,19 @@ class PicklerImpl<T> extends Pickler<T> {
 }
 
 abstract class Picklable<T> {
-
   Pickler<T> getPickler();
-
 }
 
 class MonotoneListPickler<T> extends Pickler<List<T>> {
-
   final Pickler<T> elementPickler;
 
   const MonotoneListPickler(this.elementPickler) : super("m[]");
 
   @override
-  int peekSize(List<T> object) => object.map((e) => elementPickler.peekSize(e)).reduce((x, y) => x+y)
-      + Sizes.listIndex + (object.length * Sizes.listIndex);
+  int peekSize(List<T> object) =>
+      object.map((e) => elementPickler.peekSize(e)).reduce((x, y) => x + y) +
+      Sizes.listIndex +
+      (object.length * Sizes.listIndex);
 
   @override
   void pickle(ByteBuf buf, List<T> object) {
@@ -95,5 +105,3 @@ ByteBuf pickleObject<T>(T obj, Pickler<T> pickler) {
 }
 
 T unpickleObject<T>(ByteBuf buf, Pickler<T> pickler) => pickler.unpickle(buf);
-
-

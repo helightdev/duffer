@@ -5,7 +5,7 @@ void main() {
   group("Pickle", () {
     var fun = ExampleObject.pickler;
     test("Single", () {
-      var obj0 = ExampleObject("Hans",  30);
+      var obj0 = ExampleObject("Hans", 30);
       var buf = pickleObject(obj0, fun);
       var obj1 = unpickleObject(buf, fun);
       expect(obj1, obj0);
@@ -26,21 +26,23 @@ void main() {
 }
 
 class ExampleObject extends Picklable {
-
-  static final Pickler<ExampleObject> pickler = Pickler.create(pickle: (buf,obj) {
-    buf.writeLPString(obj.name);
-    buf.writeInt32(obj.age);
-  }, unpickle: (buf) {
-    var name = buf.readLPString();
-    var age = buf.readInt32();
-    return ExampleObject(name, age);
-  }, size: (obj) => Sizes.string(obj.name) + Sizes.int32, name: "example-object");
+  static final Pickler<ExampleObject> pickler = Pickler.create(
+      pickle: (buf, obj) {
+        buf.writeLPString(obj.name);
+        buf.writeInt32(obj.age);
+      },
+      unpickle: (buf) {
+        var name = buf.readLPString();
+        var age = buf.readInt32();
+        return ExampleObject(name, age);
+      },
+      size: (obj) => Sizes.string(obj.name) + Sizes.int32,
+      name: "example-object");
 
   String name;
   int age;
 
   ExampleObject(this.name, this.age);
-
 
   @override
   String toString() {

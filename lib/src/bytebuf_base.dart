@@ -10,7 +10,6 @@ int kDefaultByteBufSize = 1024;
 int kDefaultMaxByteBufSize = 4294967296;
 
 abstract class ByteBuf with IterableMixin {
-
   /// Current capacity of the buffer
   int capacity();
 
@@ -18,7 +17,8 @@ abstract class ByteBuf with IterableMixin {
   int minCapacity = 0;
 
   /// Upper constraint of the buffer capacity
-  int maxCapacity = kDefaultMaxByteBufSize; // Did not validate this, but should be max
+  int maxCapacity =
+      kDefaultMaxByteBufSize; // Did not validate this, but should be max
 
   /// Defines if the buffer can expand its capacity
   /// insides its own constraints
@@ -250,6 +250,7 @@ abstract class ByteBuf with IterableMixin {
       setByte(index + i, bytes[i]);
     }
   }
+
   /// Writes the content of [buffer] at the current
   /// [writerIndex] (inclusive) and increments the [writerIndex] by
   /// the length of the [buffer].
@@ -268,7 +269,6 @@ abstract class ByteBuf with IterableMixin {
       writeByte(buffer[i]);
     }
   }
-
 
   /// Gets a [length]-long writable transaction buffer at the current
   /// [writerIndex] (inclusive) and increments the [writerIndex] by [length].
@@ -384,7 +384,7 @@ abstract class ByteBuf with IterableMixin {
   void assertReadable(int index, int length) {
     if (length == 0) return;
     if (index >= capacity()) throw ReadIndexOutOfRangeException();
-    if (index + length - 1>= capacity()) throw BufferOverreadException();
+    if (index + length - 1 >= capacity()) throw BufferOverreadException();
   }
 
   /// Asserts the readability of the region
@@ -421,7 +421,7 @@ abstract class ByteBuf with IterableMixin {
   /// [index] < ([index] + [length])
   bool checkReadable(int index, int length) {
     if (index >= capacity()) return false;
-    if (index + length - 1>= capacity()) return false;
+    if (index + length - 1 >= capacity()) return false;
     return true;
   }
 
@@ -492,13 +492,15 @@ abstract class ByteBuf with IterableMixin {
 
   static ByteBuf create({int? initialCapacity, int? maxCapacity}) {
     var buffer = HeapBuffer(ByteData(initialCapacity ?? kDefaultByteBufSize));
-    buffer.maxCapacity = maxCapacity ?? initialCapacity ?? kDefaultMaxByteBufSize;
+    buffer.maxCapacity =
+        maxCapacity ?? initialCapacity ?? kDefaultMaxByteBufSize;
     return buffer;
   }
 
   static HeapBuffer createHeap({int? initialCapacity, int? maxCapacity}) {
     var buffer = HeapBuffer(ByteData(initialCapacity ?? kDefaultByteBufSize));
-    buffer.maxCapacity = maxCapacity ?? initialCapacity ?? kDefaultMaxByteBufSize;
+    buffer.maxCapacity =
+        maxCapacity ?? initialCapacity ?? kDefaultMaxByteBufSize;
     return buffer;
   }
 
@@ -534,7 +536,7 @@ class LinkedWriteMarker {
 }
 
 class LinkedReadMarker {
-  ByteBuf _delegate;
+  final ByteBuf _delegate;
   int _index;
   LinkedReadMarker(this._delegate, this._index);
 

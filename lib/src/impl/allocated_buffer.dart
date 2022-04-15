@@ -6,7 +6,6 @@ import '../bytebuf_allocator.dart';
 import 'heap_buffer.dart';
 
 class FixedAllocatedBuffer extends ByteBuf with ReleasableByteBuf {
-
   ByteData data;
   ByteBufAllocator allocator;
 
@@ -71,5 +70,4 @@ class FixedAllocatedBuffer extends ByteBuf with ReleasableByteBuf {
 
   @override
   bool isGrowable() => false;
-
 }

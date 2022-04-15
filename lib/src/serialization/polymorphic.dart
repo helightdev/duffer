@@ -1,7 +1,6 @@
 import 'package:duffer/duffer.dart';
 
 class PickleRegistry {
-
   Map<Type, String> typeMappings = {};
   Map<String, Pickler> picklers = {};
 
@@ -10,7 +9,6 @@ class PickleRegistry {
 }
 
 class IdentifiedPickle {
-
   String pickler;
   ByteBuf data;
 
@@ -18,12 +16,11 @@ class IdentifiedPickle {
 }
 
 class IdentifiedPicklePickler extends Pickler<IdentifiedPickle> {
-
   IdentifiedPicklePickler() : super("_t");
 
-
   @override
-  int peekSize(IdentifiedPickle object) => (Sizes.listIndex) + object.data.length + Sizes.string(object.pickler);
+  int peekSize(IdentifiedPickle object) =>
+      (Sizes.listIndex) + object.data.length + Sizes.string(object.pickler);
 
   @override
   void pickle(ByteBuf buf, IdentifiedPickle object) {
@@ -39,5 +36,4 @@ class IdentifiedPicklePickler extends Pickler<IdentifiedPickle> {
     var data = buf.readBuffer(dataLen);
     return IdentifiedPickle(pickler, data);
   }
-
 }

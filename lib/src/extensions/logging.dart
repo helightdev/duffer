@@ -1,7 +1,6 @@
 part of '../extensions.dart';
 
-extension Uint8ListLoggingExtensions on Uint8List{
-
+extension Uint8ListLoggingExtensions on Uint8List {
   /// Creates a hexdump of the Uint8List
   ///
   /// ----
@@ -34,7 +33,6 @@ extension Uint8ListLoggingExtensions on Uint8List{
 }
 
 extension ByteBufLoggingExtensions on ByteBuf {
-
   /// Creates a hexdump of the buffer.
   ///
   /// **Warning: This does also include already read and unwritten sections**

@@ -2,7 +2,6 @@ import 'bytebuf_base.dart';
 
 //TODO: Add tests, this is untested but should work now as intended probably
 class ByteBufIterator extends Iterator<int> {
-
   ByteBuf buffer;
   int index = 0;
 

@@ -44,5 +44,6 @@ class WriteIndexOutOfRangeException implements BufferException {
 /// Can't allocate more heap because of buffer constraints
 class BufferConstrainedException implements BufferException {
   @override
-  String get message => "Can't allocate more heap because of buffer constraints";
+  String get message =>
+      "Can't allocate more heap because of buffer constraints";
 }

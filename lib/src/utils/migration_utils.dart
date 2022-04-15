@@ -3,14 +3,14 @@ import 'dart:typed_data';
 import '../bytebuf_base.dart';
 
 class MigrationUtils {
-
   MigrationUtils._() {
     throw Exception("Can't construct static utility class");
   }
 
   static ByteData migrate(ByteData original, int newCapacity) {
     var delta = newCapacity - original.lengthInBytes;
-    if (delta < 0) throw UnimplementedError("Shrinking buffers is currently not supped");
+    if (delta < 0)
+      throw UnimplementedError("Shrinking buffers is currently not supped");
     var data = ByteData(newCapacity);
     for (var i = 0; i < original.lengthInBytes; i++) {
       data.setUint8(i, original.getUint8(i));
@@ -29,5 +29,4 @@ class MigrationUtils {
       b[i] = a[i];
     }
   }
-
 }

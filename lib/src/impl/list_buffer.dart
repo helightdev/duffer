@@ -5,7 +5,6 @@ import '../extensions.dart';
 import 'heap_buffer.dart';
 
 class ListBuffer extends ByteBuf {
-
   final Uint8List _backing;
 
   ListBuffer(this._backing);
@@ -24,15 +23,18 @@ class ListBuffer extends ByteBuf {
     if (index >= capacity()) throw WriteIndexOutOfRangeException();
     _backing[index] = byte;
   }
+
   @override
   Uint8List array() => _backing.uint8List;
 
   @override
-  ByteData viewByteData(int index, int length) => _backing.buffer.asByteData(index, length);
+  ByteData viewByteData(int index, int length) =>
+      _backing.buffer.asByteData(index, length);
 
   @override
   ByteBuf getBuffer(int index, int length) {
-    return HeapBuffer.fixed(ByteData.view(_backing.buffer, index, index + length));
+    return HeapBuffer.fixed(
+        ByteData.view(_backing.buffer, index, index + length));
   }
 
   @override

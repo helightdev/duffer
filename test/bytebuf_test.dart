@@ -17,7 +17,7 @@ void main() {
       expect(list, buffer.readAvailableBytes());
     });
   });
-  
+
   group('Buffer Read Write', () {
     final byteBuf = Unpooled.fixed(8);
 
@@ -171,14 +171,15 @@ void main() {
       byteBuf.discardReadBytes();
       byteBuf.writeLPString("Example", asciiEncoding);
       expect(byteBuf.readLPString(asciiEncoding), "Example");
-      byteBuf.discardReadBytes(); // Yea could also have called this test "discardReadBytes"
+      byteBuf
+          .discardReadBytes(); // Yea could also have called this test "discardReadBytes"
       expect(() {
         byteBuf.writeLPString("Too looooooooooooooong string", utf8Encoding);
       }, throwsException);
       expect(byteBuf.readerIndex, 0); // Just wanted too test this too
     });
   });
-  group("Control Functions",() {
+  group("Control Functions", () {
     final byteBuf = Unpooled.fixed(32);
 
     setUp(() {
@@ -224,12 +225,12 @@ void main() {
     test("Readable", () {
       expect(byteBuf.writableBytes, byteBuf.capacity());
       expect(byteBuf.readableBytes, 0);
-      while(byteBuf.isWritable) {
+      while (byteBuf.isWritable) {
         byteBuf.writeByte(0xFF);
       }
       expect(byteBuf.writableBytes, 0);
       expect(byteBuf.readableBytes, byteBuf.capacity());
-      while(byteBuf.isReadable) {
+      while (byteBuf.isReadable) {
         var byte = byteBuf.readByte();
         expect(byte, 0xFF);
       }

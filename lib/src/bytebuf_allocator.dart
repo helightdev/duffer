@@ -1,7 +1,6 @@
 import 'bytebuf_base.dart';
 
 abstract class ByteBufAllocator {
-
   /// Allocates a [size]-long releasable child buffer
   ///
   /// ----
@@ -39,14 +38,11 @@ abstract class ByteBufAllocator {
   /// The amount of accessible free heap inside the
   /// buffer, which the the buffer can directly allocate.
   int available();
-
 }
 
 mixin ReleasableByteBuf on ByteBuf {
-
   void release();
   bool isReleased();
 
   void setReleasedInternal(bool released);
-
 }
