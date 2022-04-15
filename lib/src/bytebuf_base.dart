@@ -10,6 +10,9 @@ int kDefaultByteBufSize = 1024;
 int kDefaultMaxByteBufSize =
     4294967296; // Did not validate this, but should be max
 
+bool kIndexOperationModifyIndices = true;
+bool kAlwaysCheckReadIndices = true;
+
 abstract class ByteBuf {
   /// Current capacity of the buffer
   int capacity();
@@ -64,9 +67,6 @@ abstract class ByteBuf {
 
   /// Returns true if there are writeable bytes left.
   bool get isWritable => writableBytes > 0;
-
-  /// Makes the read assertion also check uf index is available.
-  bool validateIndices = true;
 
   /// The marker of the [readerIndex]. Overrides the [readerIndex]
   /// with its value when [resetReaderIndex] is called.
@@ -313,6 +313,7 @@ abstract class ByteBuf {
   }
 
   void _incrementWriteIndexToMin(int index, int length) {
+    if (!kIndexOperationModifyIndices) return;
     writerIndex = max(writerIndex, index + length);
   }
 
@@ -490,7 +491,7 @@ abstract class ByteBuf {
     if (length < 0) throw Exception();
     if (index >= capacity()) throw ReadIndexOutOfRangeException();
     if (index + length - 1 >= capacity()) throw BufferOverreadException();
-    if (validateIndices && (index + length - 1) >= writerIndex) {
+    if (kAlwaysCheckReadIndices && (index + length - 1) >= writerIndex) {
       throw IndexNotAvailableException();
     }
   }

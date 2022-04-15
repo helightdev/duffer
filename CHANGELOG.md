@@ -27,3 +27,6 @@
 - Add documentation
 - Add option to toggle index based Readability Validation which is now on by default
 - Updated tests to match the new mechanics
+
+## 1.1.1
+- kAlwaysCheckReadIndices as global replacement for validateIndices

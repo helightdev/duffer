@@ -112,8 +112,6 @@ void main() {
       expect(() {
         child0.readBytes(2);
       }, throwsException);
-      child0.validateIndices = false;
-      expect(child0.readBytes(2), [0x45, 0x67]);
     });
   });
 
@@ -277,8 +275,6 @@ void main() {
       expect(child1.readBytes(2), [0x45, 0x67]);
       var child2 = buffer.viewBuffer(2, 2);
       expect(child2.readableBytes, 0);
-      child2.validateIndices = false;
-      expect(child2.readBytes(2), [0x45, 0x67]);
     });
   });
 }
