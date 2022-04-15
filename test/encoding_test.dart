@@ -10,7 +10,7 @@ void main() {
       expect(decoded.array(), src.array());
 
       // Test writability
-      decoded.setByte(0, 0x12);
+      decoded.updateByte(0, 0x12);
       expect(decoded.getByte(0), 0x12);
     });
 
@@ -21,7 +21,7 @@ void main() {
       expect(decoded.array(), src.array());
 
       // Test writability
-      decoded.setByte(0, 0x12);
+      decoded.updateByte(0, 0x12);
       expect(decoded.getByte(0), 0x12);
     });
   });

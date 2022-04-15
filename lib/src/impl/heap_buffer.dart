@@ -28,7 +28,7 @@ class HeapBuffer extends ByteBuf {
   }
 
   @override
-  void setByte(int index, int byte) {
+  void updateByte(int index, int byte) {
     if (index >= capacity()) throw WriteIndexOutOfRangeException();
     data.setUint8(index, byte);
   }
@@ -41,7 +41,7 @@ class HeapBuffer extends ByteBuf {
       ByteData.sublistView(data, index, index + length);
 
   @override
-  HeapBuffer getBuffer(int index, int length) {
+  HeapBuffer viewBuffer(int index, int length) {
     return HeapBuffer.fixed(ByteData.sublistView(data, index, index + length));
   }
 

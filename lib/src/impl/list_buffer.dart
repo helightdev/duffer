@@ -19,7 +19,7 @@ class ListBuffer extends ByteBuf {
   }
 
   @override
-  void setByte(int index, int byte) {
+  void updateByte(int index, int byte) {
     if (index >= capacity()) throw WriteIndexOutOfRangeException();
     _backing[index] = byte;
   }
@@ -32,7 +32,7 @@ class ListBuffer extends ByteBuf {
       _backing.buffer.asByteData(index, length);
 
   @override
-  ByteBuf getBuffer(int index, int length) {
+  ByteBuf viewBuffer(int index, int length) {
     return HeapBuffer.fixed(
         ByteData.view(_backing.buffer, index, index + length));
   }

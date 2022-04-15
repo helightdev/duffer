@@ -4,14 +4,16 @@ via a pickle inspired system.
 ## Features
 
 | Feature                | Status
-| :--------------------: | :-----: |
-| Buffers                | ✅     |
-| Child Buffers          | ✅     |
-| Unpooled               | ✅     |
-| Pooled                 | ✅     |
-| Primitive Datatypes    | ✅     |
-| Hex Encoding           | ✅     |
-| Base64 Encoding        | ✅     |
+| :--------------------: | :------------:  |
+| Buffers                | ✅              |
+| Read/Write             | ✅              |
+| Get/Set                | ✅ (preview)    |
+| Child Buffers          | ✅              |
+| Unpooled               | ✅              |
+| Pooled                 | ✅              |
+| Primitive Datatypes    | ✅              |
+| Hex Encoding           | ✅              |
+| Base64 Encoding        | ✅              |
 
 
 ## Getting started

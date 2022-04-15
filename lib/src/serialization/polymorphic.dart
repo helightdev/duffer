@@ -20,7 +20,9 @@ class IdentifiedPicklePickler extends Pickler<IdentifiedPickle> {
 
   @override
   int peekSize(IdentifiedPickle object) =>
-      (Sizes.listIndex) + object.data.length + Sizes.string(object.pickler);
+      (Sizes.listIndex) +
+      object.data.readableBytes +
+      Sizes.string(object.pickler);
 
   @override
   void pickle(ByteBuf buf, IdentifiedPickle object) {

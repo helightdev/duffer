@@ -16,3 +16,14 @@
 - Add peakAvailableBytes
 - Update encodings to use peakAvailableBytes
 - Make iterator use writer index instead of the buffer capacity since this would be unexpected for the user
+
+## 1.1.0
+- Replace getBuffer with viewBuffer and add new getBuffer function which expands the resulting buffers
+  index constraints
+- Replace setByte with updateByte and add new setByte which increments the writerIndex to fit
+  the operation 
+- Index based operations now also increment the writerIndex  
+- Replaced the iterator with the list view 
+- Add documentation
+- Add option to toggle index based Readability Validation which is now on by default
+- Updated tests to match the new mechanics

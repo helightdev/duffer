@@ -41,7 +41,7 @@ class FixedAllocatedBuffer extends ByteBuf with ReleasableByteBuf {
   }
 
   @override
-  void setByte(int index, int byte) {
+  void updateByte(int index, int byte) {
     if (released) throw BufferReleasedException();
     if (index >= capacity()) throw WriteIndexOutOfRangeException();
     data.setUint8(index, byte);
@@ -60,7 +60,7 @@ class FixedAllocatedBuffer extends ByteBuf with ReleasableByteBuf {
   }
 
   @override
-  ByteBuf getBuffer(int index, int length) {
+  ByteBuf viewBuffer(int index, int length) {
     if (released) throw BufferReleasedException();
     return HeapBuffer.fixed(ByteData.sublistView(data, index, index + length));
   }

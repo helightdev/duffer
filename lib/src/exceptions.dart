@@ -47,3 +47,9 @@ class BufferConstrainedException implements BufferException {
   String get message =>
       "Can't allocate more heap because of buffer constraints";
 }
+
+/// The current index is not available
+class IndexNotAvailableException implements BufferException {
+  @override
+  String get message => "The current index is not available";
+}

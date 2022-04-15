@@ -1,50 +1,56 @@
-import 'dart:collection';
+import 'dart:math';
 import 'dart:typed_data';
 
-import 'bytebuf_iterator.dart';
+import 'package:duffer/src/immutable_list_view.dart';
 import 'impl/heap_buffer.dart';
 
 part 'exceptions.dart';
 
 int kDefaultByteBufSize = 1024;
-int kDefaultMaxByteBufSize = 4294967296;
+int kDefaultMaxByteBufSize =
+    4294967296; // Did not validate this, but should be max
 
-abstract class ByteBuf with IterableMixin {
+abstract class ByteBuf {
   /// Current capacity of the buffer
   int capacity();
 
-  /// Lower constraint of the buffer capacity
+  /// Lower constraint of the buffer capacity.
   int minCapacity = 0;
 
-  /// Upper constraint of the buffer capacity
-  int maxCapacity =
-      kDefaultMaxByteBufSize; // Did not validate this, but should be max
+  /// Upper constraint of the buffer capacity.
+  int maxCapacity = kDefaultMaxByteBufSize;
 
   /// Defines if the buffer can expand its capacity
-  /// insides its own constraints
+  /// insides its own constraints.
   bool isGrowable();
 
   /// Allocates/Grows the buffer by [bytes] inside
-  /// its own constraints
+  /// its own constraints.
   ///
   /// ----
   /// Exceptions:
   /// * [BufferOverflowException] if the new capacity
-  /// overflows the buffer's [maxCapacity]
+  /// overflows the buffer's [maxCapacity].
   void allocate(int bytes);
 
   /// Current writer index.
   ///
-  /// Automatically incremented by all write* operations
+  /// Automatically incremented by all write* operations.
   int writerIndex = 0;
 
   /// Current reader index.
   ///
-  /// Automatically incremented by all read* operations
+  /// Automatically incremented by all read* operations.
   int readerIndex = 0;
 
   /// Amount of bytes which are readable from the current
-  /// [readerIndex] (inclusive)
+  /// [readerIndex] (inclusive).
+  ///
+  ///
+  /// ----
+  /// Bytes are considered readable if the index of the position,
+  /// in this case the [readerIndex], is smaller than the current writer index
+  /// and is not discardable, i.E. smaller than the current [readerIndex].
   int get readableBytes => writerIndex - readerIndex;
 
   /// Amount of free bytes inside the buffer from the
@@ -59,12 +65,15 @@ abstract class ByteBuf with IterableMixin {
   /// Returns true if there are writeable bytes left.
   bool get isWritable => writableBytes > 0;
 
+  /// Makes the read assertion also check uf index is available.
+  bool validateIndices = true;
+
   /// The marker of the [readerIndex]. Overrides the [readerIndex]
   /// with its value when [resetReaderIndex] is called.
   ///
   /// Defaults to 0.
   ///
-  /// Can be set manually or via [markReaderIndex]
+  /// Can be set manually or via [markReaderIndex].
   int readMarker = 0;
 
   /// The marker of the [writerIndex]. Overrides the [writerIndex]
@@ -72,7 +81,7 @@ abstract class ByteBuf with IterableMixin {
   ///
   /// Defaults to 0.
   ///
-  /// Can be set manually or via [markWriterIndex]
+  /// Can be set manually or via [markWriterIndex].
   int writeMarker = 0;
 
   //region Data Access
@@ -84,10 +93,25 @@ abstract class ByteBuf with IterableMixin {
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if [index]
-  /// is outside the bounds of the buffer
-  void setByte(int index, int byte);
+  /// is outside the bounds of the buffer.
+  void updateByte(int index, int byte);
 
-  /// Gets the byte at [index]
+
+  //region Data Access
+  /// Sets the byte at [index] to [byte].
+  ///
+  /// Updates the [writerIndex] to at least be at [index] + 1
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [WriteIndexOutOfRangeException] if [index]
+  /// is outside the bounds of the buffer.
+  void setByte(int index, int byte) {
+    updateByte(index, byte);
+    _incrementWriteIndexToMin(index, 1);
+  }
+
+  /// Gets the byte at [index].
   ///
   /// This method does not expand the buffer
   /// if it reached its constraints.
@@ -95,7 +119,7 @@ abstract class ByteBuf with IterableMixin {
   /// ----
   /// Exceptions:
   /// * [ReadIndexOutOfRangeException] if [index]
-  /// is outside the bounds of the buffer
+  /// is outside the bounds of the buffer.
   int getByte(int index);
 
   /// Sets the byte at [index] to [value].
@@ -106,12 +130,12 @@ abstract class ByteBuf with IterableMixin {
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if [index]
-  /// is outside the bounds of the buffer
+  /// is outside the bounds of the buffer.
   operator []=(int index, int value) {
-    setByte(index, value);
+    updateByte(index, value);
   }
 
-  /// Gets the byte at [index]
+  /// Gets the byte at [index].
   ///
   /// This method does not expand the buffer
   /// if it reached its constraints.
@@ -119,7 +143,7 @@ abstract class ByteBuf with IterableMixin {
   /// ----
   /// Exceptions:
   /// * [ReadIndexOutOfRangeException] if [index]
-  /// is outside the bounds of the buffer
+  /// is outside the bounds of the buffer.
   int operator [](int index) {
     return getByte(index);
   }
@@ -130,7 +154,7 @@ abstract class ByteBuf with IterableMixin {
   /// ----
   /// Exceptions:
   /// * [ReadIndexOutOfRangeException] if [readerIndex]
-  /// is outside the bounds of the buffer
+  /// is outside the bounds of the buffer.
   int readByte() {
     try {
       return getByte(readerIndex);
@@ -146,25 +170,29 @@ abstract class ByteBuf with IterableMixin {
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if [writerIndex]
-  /// is outside the bounds of the buffer
+  /// is outside the bounds of the buffer.
   void writeByte(int byte) {
     ensureWritable(1);
     assertWriteable(writerIndex, 1);
     try {
-      setByte(writerIndex, byte);
+      updateByte(writerIndex, byte);
     } finally {
       writerIndex++;
     }
   }
 
   /// Copies the whole buffer to a separate [Uint8List].
+  ///
+  /// ----
+  /// The resulting list may or may not include unwritten as well
+  /// as discardable regions.
   Uint8List array();
 
   /// Creates a native [ByteData] view at [index] with
   /// the length of [length].
   ///
   /// ----
-  /// Exceptions: Depending on the implementation
+  /// Exceptions: Depending on the implementation.
   ByteData viewByteData(int index, int length);
 
   /// Reads [length] bytes beginning at [readerIndex] (inclusive) as
@@ -174,11 +202,11 @@ abstract class ByteBuf with IterableMixin {
   /// ----
   /// Exceptions:
   /// * [ReadIndexOutOfRangeException] if the current
-  /// reader index is outside of the bounds of the buffer
+  /// reader index is outside of the bounds of the buffer.
   ///
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
-  /// bounds of the buffer
+  /// bounds of the buffer.
   ByteData readByteData(int length) {
     assertReadable(readerIndex, length);
     try {
@@ -195,10 +223,10 @@ abstract class ByteBuf with IterableMixin {
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
-  /// writer index is outside of the bounds of the buffer
+  /// writer index is outside of the bounds of the buffer.
   ///
   /// * [BufferOverflowException] if the length
-  /// of the resulting bytes would overflow the buffer
+  /// of the resulting bytes would overflow the buffer.
   ByteData writeByteData(int length) {
     ensureWritable(length);
     assertWriteable(writerIndex, length);
@@ -209,7 +237,17 @@ abstract class ByteBuf with IterableMixin {
     }
   }
 
-  // TODO: Documentation
+  /// Reads [length] bytes beginning at [index] (inclusive) as
+  /// a native ByteData view.
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [ReadIndexOutOfRangeException] if the current
+  /// reader index is outside of the bounds of the buffer.
+  ///
+  /// * [BufferOverreadException] if the length
+  /// of the [readerIndex] + length is outside of the
+  /// bounds of the buffer.
   ByteData getByteData(int index, int length) {
     assertReadable(index, length);
     try {
@@ -219,8 +257,21 @@ abstract class ByteBuf with IterableMixin {
     }
   }
 
-  // TODO: Documentation
+  /// Returns a writeable native ByteData view of the [buffer]
+  /// at [index] (inclusive) with an length of [length].
+  ///
+  /// Updates the [writerIndex] to at least be at [index] + [length]
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [WriteIndexOutOfRangeException] if the current
+  /// writer index is outside of the bounds of the buffer.
+  ///
+  /// * [BufferOverflowException] if the length
+  /// of the resulting bytes would overflow the buffer.
   ByteData setByteData(int index, int length) {
+    assertWriteable(index, length);
+    _incrementWriteIndexToMin(index, length);
     return viewByteData(index, length);
   }
 
@@ -231,10 +282,10 @@ abstract class ByteBuf with IterableMixin {
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
-  /// writer index is outside of the bounds of the buffer
+  /// writer index is outside of the bounds of the buffer.
   ///
   /// * [BufferOverflowException] if the length
-  /// of the resulting bytes would overflow the buffer
+  /// of the resulting bytes would overflow the buffer.
   void writeBytes(List<int> bytes) {
     ensureWritable(bytes.length);
     assertWriteable(writerIndex, bytes.length);
@@ -243,12 +294,27 @@ abstract class ByteBuf with IterableMixin {
     }
   }
 
-  // TODO: Documentation
+  /// Writes the content of [bytes] at [index] (inclusive).
+  ///
+  /// Updates the [writerIndex] to at least be at [index] + [length]
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [WriteIndexOutOfRangeException] if the current
+  /// writer index is outside of the bounds of the buffer.
+  ///
+  /// * [BufferOverflowException] if the length
+  /// of the resulting bytes would overflow the buffer.
   void setBytes(int index, List<int> bytes) {
     assertWriteable(index, bytes.length);
     for (var i = 0; i < bytes.length; i++) {
-      setByte(index + i, bytes[i]);
+      updateByte(index + i, bytes[i]);
     }
+    _incrementWriteIndexToMin(index, bytes.length);
+  }
+
+  void _incrementWriteIndexToMin(int index, int length) {
+    writerIndex = max(writerIndex, index + length);
   }
 
   /// Writes the content of [buffer] at the current
@@ -258,16 +324,14 @@ abstract class ByteBuf with IterableMixin {
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
-  /// writer index is outside of the bounds of the buffer
+  /// writer index is outside of the bounds of the buffer.
   ///
   /// * [BufferOverflowException] if the length
-  /// of the resulting bytes would overflow the buffer
+  /// of the resulting bytes would overflow the buffer.
   void writeBuffer(ByteBuf buffer) {
-    ensureWritable(buffer.length);
-    assertWriteable(writerIndex, buffer.length);
-    for (var i = 0; i < buffer.capacity(); i++) {
-      writeByte(buffer[i]);
-    }
+    ensureWritable(buffer.readableBytes);
+    assertWriteable(writerIndex, buffer.readableBytes);
+    writeBytes(buffer.listView);
   }
 
   /// Gets a [length]-long writable transaction buffer at the current
@@ -276,66 +340,100 @@ abstract class ByteBuf with IterableMixin {
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
-  /// writer index is outside of the bounds of the buffer
+  /// writer index is outside of the bounds of the buffer.
   ///
   /// * [BufferOverflowException] if the length
-  /// of the resulting bytes would overflow the buffer
+  /// of the resulting bytes would overflow the buffer.
   ByteBuf writeTransactionBuffer(int length) {
     ensureWritable(length);
     assertWriteable(writerIndex, length);
     try {
-      return getBuffer(writerIndex, length);
+      return viewBuffer(writerIndex, length);
     } finally {
       writerIndex += length;
     }
   }
 
-  // TODO: Documentation
+  /// Writes the content of [buffer] at [index] (inclusive).
+  ///
+  /// Updates the [writerIndex] to at least be at [index] + [buffer.readableBytes]
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [WriteIndexOutOfRangeException] if the current
+  /// writer index is outside of the bounds of the buffer.
+  ///
+  /// * [BufferOverflowException] if the length
+  /// of the resulting bytes would overflow the buffer.
   void setBuffer(int index, ByteBuf buffer) {
-    assertWriteable(index, buffer.length);
-    for (var i = 0; i < buffer.capacity(); i++) {
-      setByte(index + i, buffer[i]);
-    }
+    assertWriteable(index, buffer.readableBytes);
+    setBytes(index, buffer.listView);
   }
 
   /// Returns a [ByteBuf] viewing a region beginning at [index] with
   /// the length of [length].
   ///
+  /// The resulting buffer has both [ByteBuf.readerIndex] as well as
+  /// [ByteBuf.writerIndex] set to 0 and all operations performed on
+  /// the buffer do not affect the markers and indices of the root
+  /// buffer.
+  ///
   /// ----
-  /// Exceptions: Depending on the implementation
-  ByteBuf getBuffer(int index, int length);
+  /// Exceptions: Depending on the implementation.
+  ByteBuf viewBuffer(int index, int length);
+
+  /// Returns a [ByteBuf] viewing a region beginning at [index] with
+  /// the length of [length].
+  ///
+  /// The resulting buffer has both is completely readable
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [WriteIndexOutOfRangeException] if the current
+  /// writer index is outside of the bounds of the buffer.
+  ///
+  /// * [BufferOverflowException] if the length
+  /// of the resulting buffer would overflow the buffer.
+  ByteBuf getBuffer(int index, int length) {
+    assertReadable(index, length);
+    return viewBuffer(index, length)..writerIndex += length;
+  }
 
   /// Returns a [ByteBuf] viewing a region beginning at [readerIndex]
   /// with the length of [length].
   ///
+  /// The [ByteBuf.writerIndex] is set to [length] and
+  /// the [ByteBuf.readerIndex] is set to 0, making
+  /// the whole region readable via [ByteBuf.readAvailableBytes].
+  ///
   /// ----
   /// Exceptions:
   /// * [ReadIndexOutOfRangeException] if the current
-  /// reader index is outside of the bounds of the buffer
+  /// reader index is outside of the bounds of the buffer.
   ///
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
-  /// bounds of the buffer
+  /// bounds of the buffer.
   ByteBuf readBuffer(int length) {
     assertReadable(readerIndex, length);
     try {
-      return getBuffer(readerIndex, length);
+      return viewBuffer(readerIndex, length)..writerIndex += length;
     } finally {
       readerIndex += length;
     }
   }
 
   /// Reads the next [length] bytes at the current [readerIndex] (inclusive) and
-  /// increments the [readerIndex] by [length]
+  /// increments the [readerIndex] by [length].
   ///
   /// ----
   /// Exceptions:
   /// * [ReadIndexOutOfRangeException] if the current
-  /// reader index is outside of the bounds of the buffer
+  /// reader index is outside of the bounds of the buffer.
   ///
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
-  /// bounds of the buffer
+  /// bounds of the buffer.
   Uint8List readBytes(int length) {
     assertReadable(readerIndex, length);
     var list = Uint8List(length);
@@ -345,24 +443,29 @@ abstract class ByteBuf with IterableMixin {
     return list;
   }
 
-  /// Reads all available bytes into a [Uint8List]
+  /// Reads all available bytes into a [Uint8List].
+  ///
+  /// ----
+  /// Bytes are considered available if the index of the position,
+  /// in this case the [readerIndex], is smaller than the current writer index
+  /// and is not discardable, i.E. smaller than the current [readerIndex].
   Uint8List readAvailableBytes() => readBytes(readableBytes);
 
   /// Reads all available bytes into a [Uint8List] without incrementing
-  /// the reader index
+  /// the reader index.
   Uint8List peekAvailableBytes() => getBytes(readerIndex, readableBytes);
 
   /// Reads [length] bytes beginning at [index] (inclusive) into
-  /// a [Uint8List]
+  /// a [Uint8List].
   ///
   /// ----
   /// Exceptions:
   /// * [ReadIndexOutOfRangeException] if the current
-  /// reader index is outside of the bounds of the buffer
+  /// reader index is outside of the bounds of the buffer.
   ///
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
-  /// bounds of the buffer
+  /// bounds of the buffer.
   Uint8List getBytes(int index, int length) {
     assertReadable(index, length);
     var list = Uint8List(length);
@@ -372,26 +475,35 @@ abstract class ByteBuf with IterableMixin {
     return list;
   }
 
-  @override
-  Iterator<int> get iterator => ByteBufIterator(this);
+  List<int> get listView => ImmutableListView(this);
 
   //endregion
   //region Assertions
 
-  /// Asserts the writability of the region
+  /// Asserts the writability of the region.
   ///
-  /// [index] < ([index] + [length])
+  /// [length] >= 0
+  /// [index] < [capacity]
+  /// [index] + [length] - 1 < [capacity]
+  /// if [validateIndices] [index] + [length] - 1 < [writerIndex]
   void assertReadable(int index, int length) {
     if (length == 0) return;
+    if (length < 0) throw Exception();
     if (index >= capacity()) throw ReadIndexOutOfRangeException();
     if (index + length - 1 >= capacity()) throw BufferOverreadException();
+    if (validateIndices && (index + length - 1) >= writerIndex) {
+      throw IndexNotAvailableException();
+    }
   }
 
-  /// Asserts the readability of the region
+  /// Asserts the readability of the region.
   ///
-  /// [index] < ([index] + [length])
+  /// [length] >= 0
+  /// [index] < [capacity]
+  /// [index] + [length] - 1 < [capacity]
   void assertWriteable(int index, int length) {
     if (length == 0) return;
+    if (length < 0) throw Exception();
     if (index >= capacity()) throw WriteIndexOutOfRangeException();
     if (index + length - 1 >= capacity()) throw BufferOverflowException();
   }
@@ -401,7 +513,7 @@ abstract class ByteBuf with IterableMixin {
   ///
   /// ----
   /// Exceptions:
-  /// * [BufferOverflowException] if [minWritableBytes] can't be allocated
+  /// * [BufferOverflowException] if [minWritableBytes] can't be allocated.
   int ensureWritable(int minWritableBytes) {
     if (isGrowable()) {
       var delta = minWritableBytes - writableBytes;
@@ -449,16 +561,16 @@ abstract class ByteBuf with IterableMixin {
   /// Sets the [writeMarker] to [writerIndex].
   void markWriterIndex() => writeMarker = writerIndex;
 
-  /// Creates a read marker which doesn't depend on the buffers own markers
+  /// Creates a read marker which doesn't depend on the buffers own markers.
   LinkedReadMarker createReadMarker() => LinkedReadMarker(this, readerIndex);
 
-  /// Creates a write marker which doesn't depend on the buffers own markers
+  /// Creates a write marker which doesn't depend on the buffers own markers.
   LinkedWriteMarker createWriteMarker() => LinkedWriteMarker(this, writerIndex);
 
   /// Sets both [readerIndex] and [writerIndex] to 0.
   ///
   /// ----
-  /// DOES NOT change the contents of the buffer.
+  /// **DOES NOT change the contents of the buffer**
   void clear() {
     readerIndex = 0;
     writerIndex = 0;
@@ -475,7 +587,7 @@ abstract class ByteBuf with IterableMixin {
     var readOffset = readerIndex;
     var readable = readableBytes;
     for (var i = 0; i < readable; i++) {
-      setByte(i, getByte(readOffset + i));
+      updateByte(i, getByte(readOffset + i));
     }
     readerIndex = 0;
     writerIndex = readable;

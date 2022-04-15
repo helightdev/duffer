@@ -47,7 +47,7 @@ void main() {
 
     test('Indexed Single Byte Read/Write', () {
       expect(byteBuf.writerIndex, 0);
-      byteBuf.setByte(3, 0xEE);
+      byteBuf.updateByte(3, 0xEE);
       expect(byteBuf.writerIndex, 0);
       expect(byteBuf.readerIndex, 0);
       expect(byteBuf.getByte(3), 0xEE);
@@ -57,7 +57,7 @@ void main() {
     test('Indexed Multi Byte Read/Write', () {
       expect(byteBuf.writerIndex, 0);
       byteBuf.setBytes(4, Uint8List.fromList([0xAA, 0xBB]));
-      expect(byteBuf.writerIndex, 0);
+      expect(byteBuf.writerIndex, 6);
       expect(byteBuf.readerIndex, 0);
       expect(byteBuf.getBytes(4, 2), Uint8List.fromList([0xAA, 0xBB]));
       expect(byteBuf.readerIndex, 0);
@@ -103,8 +103,21 @@ void main() {
         byteBuf.getBytes(4, 5);
       }, throwsException);
     });
+
+    test("Read Index Validation", () {
+      var buffer = Unpooled.fixed(32);
+      buffer.writeUint64(0x0123456789ABCDEF);
+      var child0 = buffer.viewBuffer(2, 2);
+      expect(child0.readableBytes, 0);
+      expect(() {
+        child0.readBytes(2);
+      }, throwsException);
+      child0.validateIndices = false;
+      expect(child0.readBytes(2), [0x45, 0x67]);
+    });
   });
-  group("Special Methods", () {
+
+  group("Special RW Methods", () {
     final byteBuf = Unpooled.fixed(32);
 
     setUp(() {
@@ -249,6 +262,23 @@ void main() {
       buffer.allocate(16);
       expect(buffer.capacity(), 32);
       expect(buffer.writableBytes, 32);
+    });
+  });
+
+  group("Sibling buffers", () {
+    test("Child Size", () {
+      var buffer = Unpooled.fixed(32);
+      buffer.writeUint64(0x0123456789ABCDEF);
+      var child0 = buffer.readBuffer(2);
+      expect(child0.readableBytes, 2);
+      expect(child0.readAvailableBytes(), [0x01, 0x23]);
+      var child1 = buffer.getBuffer(2, 2);
+      expect(child1.readableBytes, 2);
+      expect(child1.readBytes(2), [0x45, 0x67]);
+      var child2 = buffer.viewBuffer(2, 2);
+      expect(child2.readableBytes, 0);
+      child2.validateIndices = false;
+      expect(child2.readBytes(2), [0x45, 0x67]);
     });
   });
 }

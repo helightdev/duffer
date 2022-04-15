@@ -31,7 +31,7 @@ class InstantRestructuringAllocator extends ByteBufAllocator {
     } else {
       var prb = precedingBytes + removedBytes;
       for (var i = 0; i < succeedingBytes; i++) {
-        _backing.setByte(precedingBytes + i, _backing.getByte(prb + i));
+        _backing.updateByte(precedingBytes + i, _backing.getByte(prb + i));
       }
       for (var value in succeedingBuffers) {
         value.data = _backing.viewByteData(
