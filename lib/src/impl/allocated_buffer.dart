@@ -62,7 +62,8 @@ class FixedAllocatedBuffer extends ByteBuf with ReleasableByteBuf {
   @override
   ByteBuf viewBuffer(int index, int length) {
     if (released) throw BufferReleasedException();
-    return ByteDataBuffer.fixed(ByteData.sublistView(data, index, index + length));
+    return ByteDataBuffer.fixed(
+        ByteData.sublistView(data, index, index + length));
   }
 
   @override

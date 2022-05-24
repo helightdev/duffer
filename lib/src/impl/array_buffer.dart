@@ -4,7 +4,6 @@ import 'package:duffer/duffer.dart';
 import 'package:duffer/src/impl/byte_data_buffer.dart';
 
 class ArrayBuffer extends ByteBuf {
-
   Uint8List _buffer = Uint8List(0);
 
   ArrayBuffer(this._buffer);
@@ -23,7 +22,7 @@ class ArrayBuffer extends ByteBuf {
   int getByte(int index) {
     try {
       return _buffer[index];
-    } catch(_) {
+    } catch (_) {
       throw ReadIndexOutOfRangeException();
     }
   }
@@ -32,8 +31,8 @@ class ArrayBuffer extends ByteBuf {
   void updateByte(int index, int byte) {
     try {
       _buffer[index] = byte;
-    } catch(_) {
-     throw WriteIndexOutOfRangeException();
+    } catch (_) {
+      throw WriteIndexOutOfRangeException();
     }
   }
 
@@ -45,7 +44,8 @@ class ArrayBuffer extends ByteBuf {
 
   @override
   ByteBuf viewBuffer(int index, int length) {
-    return ByteDataBuffer.fixed(ByteData.sublistView(_buffer, index, index + length));
+    return ByteDataBuffer.fixed(
+        ByteData.sublistView(_buffer, index, index + length));
   }
 
   @override
@@ -55,5 +55,4 @@ class ArrayBuffer extends ByteBuf {
 
   @override
   int capacity() => _buffer.length;
-
 }

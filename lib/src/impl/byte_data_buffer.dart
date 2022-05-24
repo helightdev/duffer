@@ -42,7 +42,8 @@ class ByteDataBuffer extends ByteBuf {
 
   @override
   ByteDataBuffer viewBuffer(int index, int length) {
-    return ByteDataBuffer.fixed(ByteData.sublistView(data, index, index + length));
+    return ByteDataBuffer.fixed(
+        ByteData.sublistView(data, index, index + length));
   }
 
   @override

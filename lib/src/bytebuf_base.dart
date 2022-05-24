@@ -525,7 +525,8 @@ abstract class ByteBuf {
       if (delta > 0) {
         var cap = capacity();
         if (cap + delta > maxCapacity) throw BufferOverflowException();
-        var growth = max(min(cap * 2, kMaxGrowth), delta); // Dynamic Array Growth
+        var growth =
+            max(min(cap * 2, kMaxGrowth), delta); // Dynamic Array Growth
         var newSize = min(cap + growth, maxCapacity);
         var allocated = newSize - cap;
         allocate(allocated);
