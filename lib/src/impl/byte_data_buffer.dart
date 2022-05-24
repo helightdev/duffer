@@ -4,7 +4,7 @@ import '../bytebuf_base.dart';
 import '../extensions.dart';
 import '../utils/migration_utils.dart';
 
-class HeapBuffer extends ByteBuf {
+class ByteDataBuffer extends ByteBuf {
   ByteData data;
 
   bool _isGrowableInternal = true;
@@ -12,9 +12,9 @@ class HeapBuffer extends ByteBuf {
   @override
   bool isGrowable() => _isGrowableInternal;
 
-  HeapBuffer(this.data);
+  ByteDataBuffer(this.data);
 
-  factory HeapBuffer.fixed(ByteData data) => HeapBuffer(data)
+  factory ByteDataBuffer.fixed(ByteData data) => ByteDataBuffer(data)
     ..maxCapacity = data.lengthInBytes
     .._isGrowableInternal = false;
 
@@ -41,8 +41,8 @@ class HeapBuffer extends ByteBuf {
       ByteData.sublistView(data, index, index + length);
 
   @override
-  HeapBuffer viewBuffer(int index, int length) {
-    return HeapBuffer.fixed(ByteData.sublistView(data, index, index + length));
+  ByteDataBuffer viewBuffer(int index, int length) {
+    return ByteDataBuffer.fixed(ByteData.sublistView(data, index, index + length));
   }
 
   @override

@@ -1,10 +1,11 @@
+import 'package:duffer/src/impl/array_buffer.dart';
+
 import '../bytebuf_allocator.dart';
-import '../impl/heap_buffer.dart';
 import '../impl/allocated_buffer.dart';
 import '../utils/sum.dart';
 
 class InstantRestructuringAllocator extends ByteBufAllocator {
-  final HeapBuffer _backing;
+  final ArrayBuffer _backing;
   List<FixedAllocatedBuffer> children = List.empty(growable: true);
 
   InstantRestructuringAllocator(this._backing);

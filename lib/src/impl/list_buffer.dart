@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import '../bytebuf_base.dart';
 import '../extensions.dart';
-import 'heap_buffer.dart';
+import 'byte_data_buffer.dart';
 
 class ListBuffer extends ByteBuf {
   final Uint8List _backing;
@@ -33,7 +33,7 @@ class ListBuffer extends ByteBuf {
 
   @override
   ByteBuf viewBuffer(int index, int length) {
-    return HeapBuffer.fixed(
+    return ByteDataBuffer.fixed(
         ByteData.view(_backing.buffer, index, index + length));
   }
 

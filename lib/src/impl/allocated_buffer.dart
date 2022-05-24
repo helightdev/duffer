@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 
+import '../bytebuf_allocator.dart';
 import '../bytebuf_base.dart';
 import '../extensions.dart';
-import '../bytebuf_allocator.dart';
-import 'heap_buffer.dart';
+import 'byte_data_buffer.dart';
 
 class FixedAllocatedBuffer extends ByteBuf with ReleasableByteBuf {
   ByteData data;
@@ -62,7 +62,7 @@ class FixedAllocatedBuffer extends ByteBuf with ReleasableByteBuf {
   @override
   ByteBuf viewBuffer(int index, int length) {
     if (released) throw BufferReleasedException();
-    return HeapBuffer.fixed(ByteData.sublistView(data, index, index + length));
+    return ByteDataBuffer.fixed(ByteData.sublistView(data, index, index + length));
   }
 
   @override

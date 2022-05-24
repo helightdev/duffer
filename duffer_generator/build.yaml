@@ -1,0 +1,7 @@
+builders:
+  duffer_generator:
+    import: "package:duffer_generator/duffer_generator.dart"
+    builder_factories: [ "dufferGenerator" ]
+    build_extensions: { ".dart": [ ".duffer.dart" ] }
+    auto_apply: dependents
+    build_to: source

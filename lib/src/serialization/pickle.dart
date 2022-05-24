@@ -105,3 +105,8 @@ ByteBuf pickleObject<T>(T obj, Pickler<T> pickler) {
 }
 
 T unpickleObject<T>(ByteBuf buf, Pickler<T> pickler) => pickler.unpickle(buf);
+
+
+class PickleSerializable {
+  const PickleSerializable();
+}

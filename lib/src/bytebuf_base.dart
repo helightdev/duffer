@@ -2,13 +2,16 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:duffer/src/immutable_list_view.dart';
-import 'impl/heap_buffer.dart';
+import 'package:duffer/src/impl/array_buffer.dart';
+
+import 'impl/byte_data_buffer.dart';
 
 part 'exceptions.dart';
 
 int kDefaultByteBufSize = 1024;
 int kDefaultMaxByteBufSize =
     4294967296; // Did not validate this, but should be max
+int kMaxGrowth = 1024;
 
 bool kIndexOperationModifyIndices = true;
 bool kAlwaysCheckReadIndices = true;
@@ -286,11 +289,13 @@ abstract class ByteBuf {
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer.
   void writeBytes(List<int> bytes) {
-    ensureWritable(bytes.length);
-    assertWriteable(writerIndex, bytes.length);
-    for (var i = 0; i < bytes.length; i++) {
-      writeByte(bytes[i]);
+    var j = bytes.length;
+    ensureWritable(j);
+    assertWriteable(writerIndex, j);
+    for (var i = 0; i < j; i++) {
+      updateByte(writerIndex + i, bytes[i]);
     }
+    writerIndex = writerIndex + j;
   }
 
   /// Writes the content of [bytes] at [index] (inclusive).
@@ -518,8 +523,13 @@ abstract class ByteBuf {
     if (isGrowable()) {
       var delta = minWritableBytes - writableBytes;
       if (delta > 0) {
-        if (capacity() + delta > maxCapacity) throw BufferOverflowException();
-        allocate(delta);
+        var cap = capacity();
+        if (cap + delta > maxCapacity) throw BufferOverflowException();
+        var growth = max(min(cap * 2, kMaxGrowth), delta); // Dynamic Array Growth
+        var newSize = min(cap + growth, maxCapacity);
+        var allocated = newSize - cap;
+        allocate(allocated);
+        return allocated;
       }
     } else {
       if (writableBytes < minWritableBytes) throw BufferOverflowException();
@@ -594,23 +604,23 @@ abstract class ByteBuf {
     return readOffset;
   }
 
-  static ByteBuf fixed(int size) => HeapBuffer.fixed(ByteData(size));
+  static ByteBuf fixed(int size) => ByteDataBuffer.fixed(ByteData(size));
 
   static ByteBuf size(int size) {
-    var buffer = HeapBuffer(ByteData(size));
+    var buffer = ArrayBuffer(Uint8List(size));
     buffer.maxCapacity = kDefaultMaxByteBufSize;
     return buffer;
   }
 
   static ByteBuf create({int? initialCapacity, int? maxCapacity}) {
-    var buffer = HeapBuffer(ByteData(initialCapacity ?? kDefaultByteBufSize));
+    var buffer = ArrayBuffer(Uint8List(initialCapacity ?? kDefaultByteBufSize));
     buffer.maxCapacity =
         maxCapacity ?? initialCapacity ?? kDefaultMaxByteBufSize;
     return buffer;
   }
 
-  static HeapBuffer createHeap({int? initialCapacity, int? maxCapacity}) {
-    var buffer = HeapBuffer(ByteData(initialCapacity ?? kDefaultByteBufSize));
+  static ArrayBuffer createHeap({int? initialCapacity, int? maxCapacity}) {
+    var buffer = ArrayBuffer(Uint8List(initialCapacity ?? kDefaultByteBufSize));
     buffer.maxCapacity =
         maxCapacity ?? initialCapacity ?? kDefaultMaxByteBufSize;
     return buffer;

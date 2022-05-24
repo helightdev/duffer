@@ -30,3 +30,10 @@
 
 ## 1.1.1
 - kAlwaysCheckReadIndices as global replacement for validateIndices
+
+## 1.2.0
+- Performance Optimizations
+- Buffer growth now expands a bit more than requested if possible to increase performance for frequent write
+- kMaxGrowth sets the upper "overgrowth" limit
+- Added ArrayBuffer as a replacement for HeapBuffer which is faster
+- Renamed HeapBuffer to ByteDataBuffer
