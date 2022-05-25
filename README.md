@@ -1,5 +1,17 @@
+
+
+<h1 align="center">
+  <br>
+  <img src="https://i.imgur.com/0RcUdK7.png" alt="Duffer Logo" width="256">
+  <br>
+</h1>
+
+<h4 align="center">
 A pure dart library offering support for netty-like byte buffer manipulation and binary serialization
 via a pickle inspired system.
+</h4>
+
+--- 
 
 ## Features
 
