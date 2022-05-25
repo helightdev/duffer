@@ -1,6 +1,6 @@
 name: duffer
 description: A pure dart library offering support for netty-like byte buffer manipulation and binary serialization via a pickle inspired system
-version: 1.2.2
+version: 1.2.3
 repository: https://github.com/helightdev/duffer
 
 environment:

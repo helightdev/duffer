@@ -52,3 +52,6 @@
 ## 1.2.2
 - Make ImmutableListView use getters for buffer fields to stay up to date
   Note: Will later be renamed to ReadOnlyListView
+
+## 1.2.3
+-  Add logo :)
