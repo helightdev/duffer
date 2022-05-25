@@ -1,5 +1,5 @@
-import 'package:test/test.dart';
 import 'package:duffer/duffer.dart';
+import 'package:test/test.dart';
 
 void main() {
   group("Pickle", () {
@@ -11,7 +11,7 @@ void main() {
       expect(obj1, obj0);
     });
 
-    test("List", () {
+    test("Monotone List", () {
       var obj0 = [
         ExampleObject("Anna", 10),
         ExampleObject("Bert", 20),
@@ -21,6 +21,46 @@ void main() {
       var buf = pickleObject(obj0, pickler);
       var obj1 = unpickleObject(buf, pickler);
       expect(obj1, obj0);
+    });
+
+    pickles.register(ExampleObject, ExampleObject.pickler);
+
+    test("Polymorphic Single", () {
+      var expected = ExampleObject("Anna", 10);
+      var dumped = pickles.dump(expected);
+      var actual = pickles.load(dumped);
+      expect(actual, expected);
+    });
+
+    test("Polymorphic List", () {
+      var expected = [
+        ExampleObject("Anna", 10),
+        ExampleObject("Bert", 20),
+        ExampleObject("Conan", 30)
+      ];
+      var dumped = pickles.dump(expected);
+      print(dumped.hexdump);
+      var actual = pickles.load(dumped);
+      expect(actual, expected);
+    });
+
+    test("Polymorphic Set", () {
+      var expected = {
+        ExampleObject("Anna", 10),
+        ExampleObject("Bert", 20),
+        ExampleObject("Conan", 30)
+      };
+      var dumped = pickles.dump(expected);
+      print(dumped.hexdump);
+      var actual = pickles.load(dumped);
+      expect(actual, expected);
+    });
+
+    test("Polymorphic Map", () {
+      var expected = {0: ExampleObject("Anna", 10), "key": false};
+      var dumped = pickles.dump(expected);
+      var actual = pickles.load(dumped);
+      expect(actual, expected);
     });
   });
 }

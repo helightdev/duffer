@@ -242,6 +242,41 @@ extension ReadWriteExtension on ByteBuf {
     return (encoding ?? utf8Encoding).decode(bytes);
   }
 
+  /// Writes the readable data of the [buffer], prefixed by the amount of
+  /// readable bytes at the [writerIndex] (inclusive).
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [WriteIndexOutOfRangeException] if the current
+  /// writer index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverflowException] if the length
+  /// of the resulting bytes would overflow the buffer
+  void writeLPBuffer(ByteBuf buffer) {
+    // Maybe fix double allocation?
+    writeInt32(buffer.readableBytes);
+    writeBytes(buffer.peekAvailableBytes());
+  }
+
+  /// Reads a length prepended buffer at the current [readerIndex] (inclusive).
+  ///
+  /// ----
+  /// See [writeLPBuffer] for more details about data structure.
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [ReadIndexOutOfRangeException] if the current
+  /// reader index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverreadException] if the length
+  /// of the [readerIndex] + length is outside of the
+  /// bounds of the buffer
+  ByteBuf readLPBuffer() {
+    int length = readInt32();
+    var bytes = readBytes(length);
+    return bytes.asWrappedBuffer;
+  }
+
   /// Encodes the [bytes] using [canonical base64](https://datatracker.ietf.org/doc/html/rfc4648)
   /// and writes the resulting data prefixed by the length of the
   /// resulting buffer as an int32 at the current

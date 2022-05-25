@@ -37,3 +37,14 @@
 - kMaxGrowth sets the upper "overgrowth" limit
 - Added ArrayBuffer as a replacement for HeapBuffer which is faster
 - Renamed HeapBuffer to ByteDataBuffer
+
+## 1.2.1
+- Add more polymorphic pickle serializers
+- Add Pickler for basic types and primitives
+- Add PicklerRegistry and static 'pickles' field
+- Add readLPBuffer
+- Add writeLPBuffer
+- Add placeholder for the shift extension
+- Add example for using the pickler
+- Update README.md
+- Update EXAMPLES.md

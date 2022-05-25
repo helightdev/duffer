@@ -1,6 +1,8 @@
 import 'package:duffer/duffer.dart';
 
 abstract class Pickler<T> {
+  static int _unnamedCounter = 0;
+
   final String id;
   int peekSize(T object);
   void pickle(ByteBuf buf, T object);
@@ -17,7 +19,7 @@ abstract class Pickler<T> {
         pickleFun: pickle,
         unpickleFun: unpickle,
         sizeFun: size,
-        name: name ?? "unknown");
+        name: name ?? "unknown${_unnamedCounter++}");
   }
 }
 
