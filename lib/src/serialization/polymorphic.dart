@@ -94,8 +94,9 @@ class PickleRegistry {
     var pickler = picklers[idPickle.pickler]!;
     var data = pickler.unpickle(idPickle.data);
     if (data is DataListPickle) return data.data.map((e) => load(e)).toList();
-    if (data is DataSetPickle)
+    if (data is DataSetPickle) {
       return data.data.map((e) => load(e)).toList().toSet();
+    }
     if (data is DataMapPickle) {
       var map = {};
       for (var element in data.data.entries) {
