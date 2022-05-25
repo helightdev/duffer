@@ -2,18 +2,16 @@ import 'dart:collection';
 
 import 'package:duffer/duffer.dart';
 
+//TODO: Rename to ReadOnlyListView
 class ImmutableListView with ListMixin<int> {
   ByteBuf buf;
 
-  late int start;
+  int get start => buf.readerIndex;
 
   @override
-  late int length;
+  int get length => buf.readableBytes;
 
-  ImmutableListView(this.buf) {
-    start = buf.readerIndex;
-    length = buf.readableBytes;
-  }
+  ImmutableListView(this.buf);
 
   @override
   operator [](int index) {
@@ -22,6 +20,11 @@ class ImmutableListView with ListMixin<int> {
 
   @override
   void operator []=(int index, value) {
+    throw UnsupportedError("Not available in immutable lists");
+  }
+
+  @override
+  set length(int newLength) {
     throw UnsupportedError("Not available in immutable lists");
   }
 }
