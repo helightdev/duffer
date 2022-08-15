@@ -78,6 +78,31 @@ extension ReadWriteExtension on ByteBuf {
   /// bounds of the buffer
   int readInt16() => readByteData(2).getInt16(0);
 
+  /// Writes the [value] as a 1 byte long signed integer
+  /// at the current [writerIndex] (inclusive).
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [WriteIndexOutOfRangeException] if the current
+  /// writer index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverflowException] if the length
+  /// of the resulting bytes would overflow the buffer
+  void writeInt8(int value) => writeByteData(1).setInt8(0, value);
+
+  /// Reads the next 1 byte as a signed integer
+  /// at the current [readerIndex] (inclusive).
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [ReadIndexOutOfRangeException] if the current
+  /// reader index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverreadException] if the length
+  /// of the [readerIndex] + length is outside of the
+  /// bounds of the buffer
+  int readInt8() => readByteData(1).getInt8(0);
+
   /// Writes the [value] as a 8 byte long unsigned integer
   /// at the current [writerIndex] (inclusive).
   ///
@@ -152,6 +177,31 @@ extension ReadWriteExtension on ByteBuf {
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
   int readUint16() => readByteData(2).getUint16(0);
+
+  /// Writes the [value] as a 1 byte long unsigned integer
+  /// at the current [writerIndex] (inclusive).
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [WriteIndexOutOfRangeException] if the current
+  /// writer index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverflowException] if the length
+  /// of the resulting bytes would overflow the buffer
+  void writeUint8(int value) => writeByteData(1).setUint8(0, value);
+
+  /// Reads the next 1 byte as an unsigned integer
+  /// at the current [readerIndex] (inclusive).
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [ReadIndexOutOfRangeException] if the current
+  /// reader index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverreadException] if the length
+  /// of the [readerIndex] + length is outside of the
+  /// bounds of the buffer
+  int readUint8() => readByteData(1).getUint8(0);
 
   /// Writes the [value] as a 8 byte long floating point number
   /// at the current [writerIndex] (inclusive).
