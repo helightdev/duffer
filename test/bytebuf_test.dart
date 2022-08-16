@@ -122,6 +122,15 @@ void main() {
       byteBuf.clear();
     });
 
+    test("Int8", () {
+      byteBuf.writeInt8(16);
+      expect(byteBuf.readInt8(), 16);
+      byteBuf.writeInt8(-16);
+      expect(byteBuf.readInt8(), -16);
+      byteBuf.writeInt8(0x7FFF7E7E);
+      expect(byteBuf.readInt8(), 0x7E);
+    });
+
     test("Int16", () {
       byteBuf.writeInt16(16);
       expect(byteBuf.readInt16(), 16);
@@ -149,6 +158,15 @@ void main() {
       expect(byteBuf.readInt64(), -16);
       byteBuf.writeInt64(0x7FFFFFFFFFFFFFFF);
       expect(byteBuf.readInt32() == -1, false);
+    });
+
+    test("Uint8", () {
+      byteBuf.writeUint8(0x13);
+      expect(byteBuf.readUint8(), 0x13);
+      byteBuf.writeUint8(0xFF);
+      expect(byteBuf.readUint8(), 0xFF);
+      byteBuf.writeUint8(0x11223344);
+      expect(byteBuf.readUint8(), 0x44);
     });
 
     test("Uint16", () {

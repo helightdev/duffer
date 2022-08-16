@@ -6,6 +6,8 @@ extension ReadWriteExtension on ByteBuf {
   /// Writes the [value] as a 8 byte long signed integer
   /// at the current [writerIndex] (inclusive).
   ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
+  ///
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
@@ -13,11 +15,14 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeInt64(int value, [Endian? endian]) => writeByteData(8).setInt64(0, value, endian ?? kEndianness);
+  void writeInt64(int value, [Endian? endian]) =>
+      writeByteData(8).setInt64(0, value, endian ?? kEndianness);
 
   /// Reads the next 8 bytes as a signed integer
   /// at the current [readerIndex] (inclusive).
   ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
+  ///
   /// ----
   /// Exceptions:
   /// * [ReadIndexOutOfRangeException] if the current
@@ -26,11 +31,14 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  int readInt64([Endian? endian]) => readByteData(8).getInt64(0, endian ?? kEndianness);
+  int readInt64([Endian? endian]) =>
+      readByteData(8).getInt64(0, endian ?? kEndianness);
 
   /// Writes the [value] as a 4 byte long signed integer
   /// at the current [writerIndex] (inclusive).
   ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
+  ///
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
@@ -38,11 +46,14 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeInt32(int value, [Endian? endian]) => writeByteData(4).setInt32(0, value, endian ?? kEndianness);
+  void writeInt32(int value, [Endian? endian]) =>
+      writeByteData(4).setInt32(0, value, endian ?? kEndianness);
 
   /// Reads the next 4 bytes as a signed integer
   /// at the current [readerIndex] (inclusive).
   ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
+  ///
   /// ----
   /// Exceptions:
   /// * [ReadIndexOutOfRangeException] if the current
@@ -51,10 +62,13 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  int readInt32([Endian? endian]) => readByteData(4).getInt32(0, endian ?? kEndianness);
+  int readInt32([Endian? endian]) =>
+      readByteData(4).getInt32(0, endian ?? kEndianness);
 
   /// Writes the [value] as a 2 byte long signed integer
   /// at the current [writerIndex] (inclusive).
+  ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
   ///
   /// ----
   /// Exceptions:
@@ -63,10 +77,13 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeInt16(int value, [Endian? endian]) => writeByteData(2).setInt16(0, value, endian ?? kEndianness);
+  void writeInt16(int value, [Endian? endian]) =>
+      writeByteData(2).setInt16(0, value, endian ?? kEndianness);
 
   /// Reads the next 2 bytes as a signed integer
   /// at the current [readerIndex] (inclusive).
+  ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
   ///
   /// ----
   /// Exceptions:
@@ -76,7 +93,8 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  int readInt16([Endian? endian]) => readByteData(2).getInt16(0, endian ?? kEndianness);
+  int readInt16([Endian? endian]) =>
+      readByteData(2).getInt16(0, endian ?? kEndianness);
 
   /// Writes the [value] as a 1 byte long signed integer
   /// at the current [writerIndex] (inclusive).
@@ -106,6 +124,8 @@ extension ReadWriteExtension on ByteBuf {
   /// Writes the [value] as a 8 byte long unsigned integer
   /// at the current [writerIndex] (inclusive).
   ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
+  ///
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
@@ -113,11 +133,14 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeUint64(int value, [Endian? endian]) => writeByteData(8).setUint64(0, value, endian ?? kEndianness);
+  void writeUint64(int value, [Endian? endian]) =>
+      writeByteData(8).setUint64(0, value, endian ?? kEndianness);
 
   /// Reads the next 8 bytes as an unsigned integer
   /// at the current [readerIndex] (inclusive).
   ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
+  ///
   /// ----
   /// Exceptions:
   /// * [ReadIndexOutOfRangeException] if the current
@@ -126,11 +149,14 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  int readUint64([Endian? endian]) => readByteData(8).getUint64(0, endian ?? kEndianness);
+  int readUint64([Endian? endian]) =>
+      readByteData(8).getUint64(0, endian ?? kEndianness);
 
   /// Writes the [value] as a 4 byte long unsigned integer
   /// at the current [writerIndex] (inclusive).
   ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
+  ///
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
@@ -138,11 +164,14 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeUint32(int value, [Endian? endian]) => writeByteData(4).setUint32(0, value, endian ?? kEndianness);
+  void writeUint32(int value, [Endian? endian]) =>
+      writeByteData(4).setUint32(0, value, endian ?? kEndianness);
 
   /// Reads the next 4 bytes as an unsigned integer
   /// at the current [readerIndex] (inclusive).
   ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
+  ///
   /// ----
   /// Exceptions:
   /// * [ReadIndexOutOfRangeException] if the current
@@ -151,10 +180,13 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  int readUint32([Endian? endian]) => readByteData(4).getUint32(0, endian ?? kEndianness);
+  int readUint32([Endian? endian]) =>
+      readByteData(4).getUint32(0, endian ?? kEndianness);
 
   /// Writes the [value] as a 2 byte long unsigned integer
   /// at the current [writerIndex] (inclusive).
+  ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
   ///
   /// ----
   /// Exceptions:
@@ -163,10 +195,13 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeUint16(int value, [Endian? endian]) => writeByteData(2).setUint16(0, value, endian ?? kEndianness);
+  void writeUint16(int value, [Endian? endian]) =>
+      writeByteData(2).setUint16(0, value, endian ?? kEndianness);
 
   /// Reads the next 2 bytes as an unsigned integer
   /// at the current [readerIndex] (inclusive).
+  ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
   ///
   /// ----
   /// Exceptions:
@@ -176,7 +211,8 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  int readUint16([Endian? endian]) => readByteData(2).getUint16(0, endian ?? kEndianness);
+  int readUint16([Endian? endian]) =>
+      readByteData(2).getUint16(0, endian ?? kEndianness);
 
   /// Writes the [value] as a 1 byte long unsigned integer
   /// at the current [writerIndex] (inclusive).
@@ -193,6 +229,8 @@ extension ReadWriteExtension on ByteBuf {
   /// Reads the next 1 byte as an unsigned integer
   /// at the current [readerIndex] (inclusive).
   ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
+  ///
   /// ----
   /// Exceptions:
   /// * [ReadIndexOutOfRangeException] if the current
@@ -206,6 +244,8 @@ extension ReadWriteExtension on ByteBuf {
   /// Writes the [value] as a 8 byte long floating point number
   /// at the current [writerIndex] (inclusive).
   ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
+  ///
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
@@ -213,11 +253,14 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeFloat64(double value, [Endian? endian]) => writeByteData(8).setFloat64(0, value, endian ?? kEndianness);
+  void writeFloat64(double value, [Endian? endian]) =>
+      writeByteData(8).setFloat64(0, value, endian ?? kEndianness);
 
   /// Reads the next 8 bytes as a floating point number
   /// at the current [readerIndex] (inclusive).
   ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
+  ///
   /// ----
   /// Exceptions:
   /// * [ReadIndexOutOfRangeException] if the current
@@ -226,10 +269,13 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  double readFloat64([Endian? endian]) => readByteData(8).getFloat64(0, endian ?? kEndianness);
+  double readFloat64([Endian? endian]) =>
+      readByteData(8).getFloat64(0, endian ?? kEndianness);
 
   /// Writes the [value] as a 4 byte long floating point number
   /// at the current [writerIndex] (inclusive).
+  ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
   ///
   /// ----
   /// Exceptions:
@@ -238,10 +284,13 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeFloat32(double value, [Endian? endian]) => writeByteData(4).setFloat32(0, value, endian ?? kEndianness);
+  void writeFloat32(double value, [Endian? endian]) =>
+      writeByteData(4).setFloat32(0, value, endian ?? kEndianness);
 
   /// Reads the next 4 bytes as a floating point number
   /// at the current [readerIndex] (inclusive).
+  ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
   ///
   /// ----
   /// Exceptions:
@@ -251,12 +300,16 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  double readFloat32([Endian? endian]) => readByteData(4).getFloat32(0, endian ?? kEndianness);
+  double readFloat32([Endian? endian]) =>
+      readByteData(4).getFloat32(0, endian ?? kEndianness);
 
   /// Encodes the [value] using [encoding] and writes
   /// the resulting data prefixed by the length of the
   /// resulting buffer as an int32 at the current
   /// [writerIndex] (inclusive).
+  ///
+  /// [endian] the endianness of the prepending length integer, defaults to [kEndianness]
+  /// which is initialized with [Endian.big].
   ///
   /// ----
   /// Exceptions:
@@ -274,6 +327,9 @@ extension ReadWriteExtension on ByteBuf {
 
   /// Reads a length prepended string encoded by [encoding]
   /// at the current [readerIndex] (inclusive).
+  ///
+  /// [endian] the endianness of the prepending length integer, defaults to [kEndianness]
+  /// which is initialized with [Endian.big].
   ///
   /// ----
   /// See [writeLPString] for more details about data structure.
@@ -295,6 +351,9 @@ extension ReadWriteExtension on ByteBuf {
   /// Writes the readable data of the [buffer], prefixed by the amount of
   /// readable bytes at the [writerIndex] (inclusive).
   ///
+  /// [endian] the endianness of the prepending length integer, defaults to [kEndianness]
+  /// which is initialized with [Endian.big].
+  ///
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
@@ -309,6 +368,9 @@ extension ReadWriteExtension on ByteBuf {
   }
 
   /// Reads a length prepended buffer at the current [readerIndex] (inclusive).
+  ///
+  /// [endian] the endianness of the prepending length integer, defaults to [kEndianness]
+  /// which is initialized with [Endian.big].
   ///
   /// ----
   /// See [writeLPBuffer] for more details about data structure.
@@ -332,6 +394,9 @@ extension ReadWriteExtension on ByteBuf {
   /// resulting buffer as an int32 at the current
   /// [writerIndex] (inclusive) using [writeLPString].
   ///
+  /// [endian] the endianness of the prepending length integer, defaults to [kEndianness]
+  /// which is initialized with [Endian.big].
+  ///
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
@@ -346,6 +411,9 @@ extension ReadWriteExtension on ByteBuf {
 
   /// Reads a length prepended [canonical base64](https://datatracker.ietf.org/doc/html/rfc4648)
   /// value at the current [readerIndex] (inclusive).
+  ///
+  /// [endian] the endianness of the prepending length integer, defaults to [kEndianness]
+  /// which is initialized with [Endian.big].
   ///
   /// ----
   /// See [writeLPBase64] for more details about data structure.

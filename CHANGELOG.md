@@ -59,3 +59,9 @@
 ## 1.2.4
 - Add global default endianness variable kEndianness
 - Add nullable optional endianness option to all relevant read/write and get/set methods
+- Added read/write methods for interacting with signed and unsigned bytes
+
+## 1.2.5
+- Add get/set methods for interacting with signed and unsigned bytes
+- Updated docs for changed methods
+- Reformatted source-code
