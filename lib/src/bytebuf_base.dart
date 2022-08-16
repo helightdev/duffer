@@ -15,6 +15,7 @@ int kMaxGrowth = 1024;
 
 bool kIndexOperationModifyIndices = true;
 bool kAlwaysCheckReadIndices = true;
+Endian kEndianness = Endian.big;
 
 abstract class ByteBuf {
   /// Current capacity of the buffer

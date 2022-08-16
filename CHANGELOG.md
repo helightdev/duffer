@@ -54,4 +54,8 @@
   Note: Will later be renamed to ReadOnlyListView
 
 ## 1.2.3
--  Add logo :)
+- Add logo :)
+
+## 1.2.4
+- Add global default endianness variable kEndianness
+- Add nullable optional endianness option to all relevant read/write and get/set methods
