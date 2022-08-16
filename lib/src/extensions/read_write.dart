@@ -13,7 +13,7 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeInt64(int value) => writeByteData(8).setInt64(0, value);
+  void writeInt64(int value, [Endian endian = Endian.big]) => writeByteData(8).setInt64(0, value, endian);
 
   /// Reads the next 8 bytes as a signed integer
   /// at the current [readerIndex] (inclusive).
@@ -26,7 +26,7 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  int readInt64() => readByteData(8).getInt64(0);
+  int readInt64([Endian endian = Endian.big]) => readByteData(8).getInt64(0, endian);
 
   /// Writes the [value] as a 4 byte long signed integer
   /// at the current [writerIndex] (inclusive).
@@ -38,7 +38,7 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeInt32(int value) => writeByteData(4).setInt32(0, value);
+  void writeInt32(int value, [Endian endian = Endian.big]) => writeByteData(4).setInt32(0, value, endian);
 
   /// Reads the next 4 bytes as a signed integer
   /// at the current [readerIndex] (inclusive).
@@ -51,7 +51,7 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  int readInt32() => readByteData(4).getInt32(0);
+  int readInt32([Endian endian = Endian.big]) => readByteData(4).getInt32(0, endian);
 
   /// Writes the [value] as a 2 byte long signed integer
   /// at the current [writerIndex] (inclusive).
@@ -63,7 +63,7 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeInt16(int value) => writeByteData(2).setInt16(0, value);
+  void writeInt16(int value, [Endian endian = Endian.big]) => writeByteData(2).setInt16(0, value, endian);
 
   /// Reads the next 2 bytes as a signed integer
   /// at the current [readerIndex] (inclusive).
@@ -76,7 +76,32 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  int readInt16() => readByteData(2).getInt16(0);
+  int readInt16([Endian endian = Endian.big]) => readByteData(2).getInt16(0, endian);
+
+  /// Writes the [value] as a 1 byte long signed integer
+  /// at the current [writerIndex] (inclusive).
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [WriteIndexOutOfRangeException] if the current
+  /// writer index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverflowException] if the length
+  /// of the resulting bytes would overflow the buffer
+  void writeInt8(int value) => writeByteData(1).setInt8(0, value);
+
+  /// Reads the next 1 byte as a signed integer
+  /// at the current [readerIndex] (inclusive).
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [ReadIndexOutOfRangeException] if the current
+  /// reader index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverreadException] if the length
+  /// of the [readerIndex] + length is outside of the
+  /// bounds of the buffer
+  int readInt8() => readByteData(1).getInt8(0);
 
   /// Writes the [value] as a 8 byte long unsigned integer
   /// at the current [writerIndex] (inclusive).
@@ -88,7 +113,7 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeUint64(int value) => writeByteData(8).setUint64(0, value);
+  void writeUint64(int value, [Endian endian = Endian.big]) => writeByteData(8).setUint64(0, value, endian);
 
   /// Reads the next 8 bytes as an unsigned integer
   /// at the current [readerIndex] (inclusive).
@@ -101,7 +126,7 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  int readUint64() => readByteData(8).getUint64(0);
+  int readUint64([Endian endian = Endian.big]) => readByteData(8).getUint64(0, endian);
 
   /// Writes the [value] as a 4 byte long unsigned integer
   /// at the current [writerIndex] (inclusive).
@@ -113,7 +138,7 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeUint32(int value) => writeByteData(4).setUint32(0, value);
+  void writeUint32(int value, [Endian endian = Endian.big]) => writeByteData(4).setUint32(0, value, endian);
 
   /// Reads the next 4 bytes as an unsigned integer
   /// at the current [readerIndex] (inclusive).
@@ -126,7 +151,7 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  int readUint32() => readByteData(4).getUint32(0);
+  int readUint32([Endian endian = Endian.big]) => readByteData(4).getUint32(0, endian);
 
   /// Writes the [value] as a 2 byte long unsigned integer
   /// at the current [writerIndex] (inclusive).
@@ -138,7 +163,7 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeUint16(int value) => writeByteData(2).setUint16(0, value);
+  void writeUint16(int value, [Endian endian = Endian.big]) => writeByteData(2).setUint16(0, value, endian);
 
   /// Reads the next 2 bytes as an unsigned integer
   /// at the current [readerIndex] (inclusive).
@@ -151,7 +176,32 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  int readUint16() => readByteData(2).getUint16(0);
+  int readUint16([Endian endian = Endian.big]) => readByteData(2).getUint16(0, endian);
+
+  /// Writes the [value] as a 1 byte long unsigned integer
+  /// at the current [writerIndex] (inclusive).
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [WriteIndexOutOfRangeException] if the current
+  /// writer index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverflowException] if the length
+  /// of the resulting bytes would overflow the buffer
+  void writeUint8(int value) => writeByteData(1).setUint8(0, value);
+
+  /// Reads the next 1 byte as an unsigned integer
+  /// at the current [readerIndex] (inclusive).
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [ReadIndexOutOfRangeException] if the current
+  /// reader index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverreadException] if the length
+  /// of the [readerIndex] + length is outside of the
+  /// bounds of the buffer
+  int readUint8() => readByteData(1).getUint8(0);
 
   /// Writes the [value] as a 8 byte long floating point number
   /// at the current [writerIndex] (inclusive).
@@ -163,7 +213,7 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeFloat64(double value) => writeByteData(8).setFloat64(0, value);
+  void writeFloat64(double value, [Endian endian = Endian.big]) => writeByteData(8).setFloat64(0, value, endian);
 
   /// Reads the next 8 bytes as a floating point number
   /// at the current [readerIndex] (inclusive).
@@ -176,7 +226,7 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  double readFloat64() => readByteData(8).getFloat64(0);
+  double readFloat64([Endian endian = Endian.big]) => readByteData(8).getFloat64(0, endian);
 
   /// Writes the [value] as a 4 byte long floating point number
   /// at the current [writerIndex] (inclusive).
@@ -188,7 +238,7 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeFloat32(double value) => writeByteData(4).setFloat32(0, value);
+  void writeFloat32(double value, [Endian endian = Endian.big]) => writeByteData(4).setFloat32(0, value, endian);
 
   /// Reads the next 4 bytes as a floating point number
   /// at the current [readerIndex] (inclusive).
@@ -201,7 +251,7 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  double readFloat32() => readByteData(4).getFloat32(0);
+  double readFloat32([Endian endian = Endian.big]) => readByteData(4).getFloat32(0, endian);
 
   /// Encodes the [value] using [encoding] and writes
   /// the resulting data prefixed by the length of the
@@ -215,10 +265,10 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeLPString(String value, [Encoding? encoding]) {
+  void writeLPString(String value, [Encoding? encoding, Endian endian = Endian.big]) {
     var bytes = Uint8List.fromList((encoding ?? utf8Encoding)
         .encode(value)); // Maybe fix double allocation?
-    writeInt32(bytes.length);
+    writeInt32(bytes.length, endian);
     writeBytes(bytes);
   }
 
@@ -236,8 +286,8 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  String readLPString([Encoding? encoding]) {
-    int length = readInt32();
+  String readLPString([Encoding? encoding, Endian endian = Endian.big]) {
+    int length = readInt32(endian);
     var bytes = readBytes(length);
     return (encoding ?? utf8Encoding).decode(bytes);
   }
@@ -252,9 +302,9 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeLPBuffer(ByteBuf buffer) {
+  void writeLPBuffer(ByteBuf buffer, [Endian endian = Endian.big]) {
     // Maybe fix double allocation?
-    writeInt32(buffer.readableBytes);
+    writeInt32(buffer.readableBytes, endian);
     writeBytes(buffer.peekAvailableBytes());
   }
 
@@ -271,8 +321,8 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  ByteBuf readLPBuffer() {
-    int length = readInt32();
+  ByteBuf readLPBuffer([Endian endian = Endian.big]) {
+    int length = readInt32(endian);
     var bytes = readBytes(length);
     return bytes.asWrappedBuffer;
   }
@@ -289,9 +339,9 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeLPBase64(Uint8List bytes) {
+  void writeLPBase64(Uint8List bytes, [Endian endian = Endian.big]) {
     var encodedString = base64Encode(bytes);
-    writeLPString(encodedString, utf8Encoding);
+    writeLPString(encodedString, utf8Encoding, endian);
   }
 
   /// Reads a length prepended [canonical base64](https://datatracker.ietf.org/doc/html/rfc4648)
@@ -308,8 +358,8 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  Uint8List readLPBase64() {
-    var encodedString = readLPString(utf8Encoding);
+  Uint8List readLPBase64([Endian endian = Endian.big]) {
+    var encodedString = readLPString(utf8Encoding, endian);
     return base64Decode(encodedString);
   }
 }
