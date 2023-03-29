@@ -679,3 +679,33 @@ class LinkedReadMarker {
     _delegate.readerIndex = _index;
   }
 }
+
+/// [ByteBuf] implementation that forwards all methods to [backing].
+abstract class DelegatingByteBuf extends ByteBuf {
+
+  ByteBuf get backing;
+
+  @override
+  void allocate(int bytes) => backing.allocate(bytes);
+
+  @override
+  Uint8List array() => backing.array();
+
+  @override
+  int capacity() => backing.capacity();
+
+  @override
+  int getByte(int index) => backing.getByte(index);
+
+  @override
+  bool isGrowable() => backing.isGrowable();
+
+  @override
+  void updateByte(int index, int byte) => backing.updateByte(index, byte);
+
+  @override
+  ByteBuf viewBuffer(int index, int length) => backing.viewBuffer(index, length);
+
+  @override
+  ByteData viewByteData(int index, int length) => backing.viewByteData(index, length);
+}

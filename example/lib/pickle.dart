@@ -1,24 +1,25 @@
 import 'package:duffer/duffer.dart';
 
 void main() {
-  pickles.dump(
-      "Hello World!"); // You can directly dump primitives and basic types like DateTime and Duration
+  // You can directly dump primitives and basic types like DateTime and Duration
+  pickles.dump("Hello World!");
 
   pickles.register(Person, personPickler); // Register pickler for Person
   pickles.register(House, housePickler); // Register pickler for House
 
-  var expected =
-      House("Some Street 12", [Person("Anna", 42), Person("Andrew", 45)]);
+  var expected = House("Some Street 12", [
+    Person("Anna", 42), Person("Andrew", 45)
+  ]);
   var encoded = pickles.dump(expected);
   print(encoded.base64); // 00000008756e6b6e6f776e310000006c...
 
   var decoded = pickles.load(encoded);
   print(decoded); // Some Street 12: [Anna (42), Andrew (45)]
 
-  var directlyPickled =
-      pickleObject(expected, housePickler); // You can also directly pickle...
-  unpickleObject(directlyPickled,
-      housePickler); // ...and unpickle the data, which is way faster
+  // You can also directly pickle...
+  var directlyPickled = pickleObject(expected, housePickler);
+  // ...and unpickle the data, which is way faster
+  unpickleObject(directlyPickled, housePickler);
 }
 
 final personPickler = Pickler<Person>.create(pickle: (buf, obj) {

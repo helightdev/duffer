@@ -1,30 +1,30 @@
 import 'bytebuf_base.dart';
 
 abstract class ByteBufAllocator {
-  /// Allocates a [size]-long releasable child buffer
+  /// Allocates a [size]-long releasable child buffer.
   ///
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the backing
   /// writer index is outside of the bounds of the backing
   /// buffer, i.e. the buffer is most commonly completely
-  /// full
+  /// full.
   ///
   /// * [BufferOverflowException] if the [size]
   /// of the allocated buffer would overflow the
-  /// backing buffer
+  /// backing buffer.
   ReleasableByteBuf allocate(int size);
 
-  /// Releases the [child] buffer
+  /// Releases the [child] buffer.
   void release(ReleasableByteBuf child);
 
-  /// Upper capacity constraint for the backing buffer
+  /// Upper capacity constraint for the backing buffer.
   int maxCapacity();
 
-  /// Current capacity of the backing buffer
+  /// Current capacity of the backing buffer.
   int capacity();
 
-  /// Heap occupied by allocated child buffers
+  /// Heap occupied by allocated child buffers.
   int used();
 
   /// Total amount of free heap inside the buffer,
