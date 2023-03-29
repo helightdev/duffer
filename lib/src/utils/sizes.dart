@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:duffer/duffer.dart';
 
 class Sizes {
+  static const int bool = 1;
   static const int int8 = 1;
   static const int int16 = 2;
   static const int int32 = 4;
   static const int int64 = 8;
+  static const int float32 = 4;
+  static const int float64 = 8;
 
   static const int listIndex = int32;
 
