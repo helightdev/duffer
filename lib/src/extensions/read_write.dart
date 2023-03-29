@@ -3,6 +3,66 @@ part of '../extensions.dart';
 /// Default extensions on [ByteBuf] for reading and writing
 /// data based on the [readerIndex] and [writerIndex].
 extension ReadWriteExtension on ByteBuf {
+
+  /// Store nullability information about [value] in a single byte, representing
+  /// null as 0x00 and any value as 0xFF and executes [converter] if the value
+  /// is not null.
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [WriteIndexOutOfRangeException] if the current
+  /// writer index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverflowException] if the length
+  /// of the resulting bytes would overflow the buffer
+  void writeNullable<T>(T? value, Function(T) converter) {
+    writeByte(value == null ? 0x00 : 0xFF);
+    if (value != null) {
+      converter(value);
+    }
+  }
+
+  /// Reads the first byte to determine if the value is null and executes
+  /// [converter] if a value is present.
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [ReadIndexOutOfRangeException] if the current
+  /// reader index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverreadException] if the length
+  /// of the [readerIndex] + length is outside of the
+  /// bounds of the buffer
+  T? readNullable<T>(T Function() converter) {
+    if (readByte() != 0xFF) return null;
+    return converter();
+  }
+
+  /// Writes the [value] as a single byte using 0xFF as true and 0x00 as false
+  /// at the current [writerIndex] (inclusive).
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [WriteIndexOutOfRangeException] if the current
+  /// writer index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverflowException] if the length
+  /// of the resulting bytes would overflow the buffer
+  void writeBool(bool value) => writeByte(value ? 0xFF : 0x00);
+
+  /// Reads the next byte as a [bool] using 0xFF as true and other values as
+  /// false at the current [readerIndex] (inclusive).
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [ReadIndexOutOfRangeException] if the current
+  /// reader index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverreadException] if the length
+  /// of the [readerIndex] + length is outside of the
+  /// bounds of the buffer
+  bool readBool() => readByte() == 0xFF;
+
   /// Writes the [value] as a 8 byte long signed integer
   /// at the current [writerIndex] (inclusive).
   ///

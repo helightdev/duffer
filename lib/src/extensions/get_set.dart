@@ -4,6 +4,9 @@ part of '../extensions.dart';
 /// Default extensions on [ByteBuf] for setting and getting
 /// data at specific indices.
 extension GetSetExtension on ByteBuf {
+  void setBool(int index, bool value) => setByte(index, value ? 0xFF : 0x00);
+  bool getBool(int index) => getByte(index) == 0xFF;
+
   void setInt64(int index, int value, [Endian? endian]) =>
       setByteData(index, 8).setInt64(0, value, endian ?? kEndianness);
   int getInt64(int index, [Endian? endian]) =>
