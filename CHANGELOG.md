@@ -65,3 +65,10 @@
 - Add get/set methods for interacting with signed and unsigned bytes
 - Updated docs for changed methods
 - Reformatted source-code
+
+## 1.2.6
+- Add methods for reading/writing and getting/setting booleans
+- Add write/read nullable
+- Add Streamed buffer wrapper
+- Add more sizes in the Size utility class
+- Update docs for a few methods
