@@ -72,3 +72,8 @@
 - Add Streamed buffer wrapper
 - Add more sizes in the Size utility class
 - Update docs for a few methods
+
+## 2.0.0
+- Set methods no longer increment the writer index
+- Get methods don't check buffer readability anymore and use assertWritable (Bounds Check)
+- Add experimental RandomAccessFileByteBuf 
