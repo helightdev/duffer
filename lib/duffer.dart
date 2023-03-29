@@ -11,3 +11,4 @@ export 'src/unpooled.dart';
 export 'src/utils/constants.dart';
 export 'src/utils/migration_utils.dart';
 export 'src/utils/sizes.dart';
+export 'src/impl/file.dart';

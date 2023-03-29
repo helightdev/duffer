@@ -57,7 +57,7 @@ void main() {
     test('Indexed Multi Byte Read/Write', () {
       expect(byteBuf.writerIndex, 0);
       byteBuf.setBytes(4, Uint8List.fromList([0xAA, 0xBB]));
-      expect(byteBuf.writerIndex, 6);
+      expect(byteBuf.writerIndex, 0);
       expect(byteBuf.readerIndex, 0);
       expect(byteBuf.getBytes(4, 2), Uint8List.fromList([0xAA, 0xBB]));
       expect(byteBuf.readerIndex, 0);

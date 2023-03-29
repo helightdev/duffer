@@ -22,8 +22,8 @@ extension GetSetExtension on ByteBuf {
   int getInt16(int index, [Endian? endian]) =>
       getByteData(index, 2).getInt16(0, endian ?? kEndianness);
 
-  void setInt8(int index, int value) => setByteData(index, 2).setInt8(0, value);
-  int getInt8(int index) => getByteData(index, 2).getInt8(0);
+  void setInt8(int index, int value) => setByteData(index, 1).setInt8(0, value);
+  int getInt8(int index) => getByteData(index, 1).getInt8(0);
 
   void setUint64(int index, int value, [Endian? endian]) =>
       setByteData(index, 8).setUint64(0, value, endian ?? kEndianness);

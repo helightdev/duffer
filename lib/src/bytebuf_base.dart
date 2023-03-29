@@ -13,7 +13,6 @@ int kDefaultMaxByteBufSize =
     4294967296; // Did not validate this, but should be max
 int kMaxGrowth = 1024;
 
-bool kIndexOperationModifyIndices = true;
 bool kAlwaysCheckReadIndices = true;
 Endian kEndianness = Endian.big;
 
@@ -103,15 +102,12 @@ abstract class ByteBuf {
   //region Data Access
   /// Sets the byte at [index] to [byte].
   ///
-  /// Updates the [writerIndex] to at least be at [index] + 1
-  ///
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if [index]
   /// is outside the bounds of the buffer.
   void setByte(int index, int byte) {
     updateByte(index, byte);
-    _incrementWriteIndexToMin(index, 1);
   }
 
   /// Gets the byte at [index].
@@ -252,18 +248,12 @@ abstract class ByteBuf {
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer.
   ByteData getByteData(int index, int length) {
-    assertReadable(index, length);
-    try {
-      return viewByteData(index, length);
-    } finally {
-      readerIndex += length;
-    }
+    assertWriteable(index, length);
+    return viewByteData(index, length);
   }
 
   /// Returns a writeable native ByteData view of the [buffer]
   /// at [index] (inclusive) with an length of [length].
-  ///
-  /// Updates the [writerIndex] to at least be at [index] + [length]
   ///
   /// ----
   /// Exceptions:
@@ -274,7 +264,6 @@ abstract class ByteBuf {
   /// of the resulting bytes would overflow the buffer.
   ByteData setByteData(int index, int length) {
     assertWriteable(index, length);
-    _incrementWriteIndexToMin(index, length);
     return viewByteData(index, length);
   }
 
@@ -301,8 +290,6 @@ abstract class ByteBuf {
 
   /// Writes the content of [bytes] at [index] (inclusive).
   ///
-  /// Updates the [writerIndex] to at least be at [index] + [length]
-  ///
   /// ----
   /// Exceptions:
   /// * [WriteIndexOutOfRangeException] if the current
@@ -315,12 +302,6 @@ abstract class ByteBuf {
     for (var i = 0; i < bytes.length; i++) {
       updateByte(index + i, bytes[i]);
     }
-    _incrementWriteIndexToMin(index, bytes.length);
-  }
-
-  void _incrementWriteIndexToMin(int index, int length) {
-    if (!kIndexOperationModifyIndices) return;
-    writerIndex = max(writerIndex, index + length);
   }
 
   /// Writes the content of [buffer] at the current
@@ -473,7 +454,7 @@ abstract class ByteBuf {
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer.
   Uint8List getBytes(int index, int length) {
-    assertReadable(index, length);
+    assertWriteable(index, length);
     var list = Uint8List(length);
     for (var i = 0; i < length; i++) {
       list[i] = getByte(index + i);

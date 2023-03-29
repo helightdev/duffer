@@ -41,4 +41,16 @@ extension IntListMigrationExtension on List<int> {
   ByteBuf get asBuffer => ByteBuf.fromData(
       this); // Also applies to uint8 list for non wrapping migration
 
+  Uint8List get uint8List => Uint8List.fromList(this);
+
+}
+
+extension ByteDataExtensions on ByteData {
+  Uint8List get uint8list {
+    var bytes = Uint8List(lengthInBytes);
+    for (var i = 0; i < lengthInBytes; i++) {
+      bytes[i] = getUint8(i);
+    }
+    return bytes;
+  }
 }
