@@ -2,3 +2,8 @@ name: duffer_project
 repository: https://github.com/helightdev/duffer
 packages:
   - packages/*
+scripts:
+  copy-readme:
+    name: copy-readme
+    description: 'Copies the root-Readme to the duffer package'
+    run: cp README.md packages/duffer/README.md

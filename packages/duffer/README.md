@@ -15,17 +15,19 @@ via a pickle inspired system.
 
 ## Features
 
-|       Feature       |   Status    |
-|:-------------------:|:-----------:|
-|       Buffers       |      ✅      |
-|     Read/Write      |      ✅      |
-|       Get/Set       | ✅ (preview) |
-|    Child Buffers    |      ✅      |
-|      Unpooled       |      ✅      |
-|       Pooled        |      ✅      |
-| Primitive Datatypes |      ✅      |
-|    Hex Encoding     |      ✅      |
-|   Base64 Encoding   |      ✅      | 
+|       Feature       |      Status      |
+|:-------------------:|:----------------:|
+|       Buffers       |        ✅         |
+|     Read/Write      |        ✅         |
+|       Get/Set       |        ✅         |
+|    Child Buffers    |        ✅         |
+|      Unpooled       |        ✅         |
+|       Pooled        |        ✅         |
+| Primitive Datatypes |        ✅         |
+|    Hex Encoding     |        ✅         |
+|   Base64 Encoding   |        ✅         | 
+|    File Buffers     | ✅ (experimental) |
+|  Streamed Buffers   |        ✅         |
 
 
 
