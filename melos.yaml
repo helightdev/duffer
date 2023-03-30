@@ -1,4 +1,4 @@
 name: duffer_project
 repository: https://github.com/helightdev/duffer
 packages:
-  - packages/
+  - packages/*
