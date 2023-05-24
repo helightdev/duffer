@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**: add basic support for int64 on web using fixnum and approximated ints.
+
 ## 2.0.1
 
  - **FIX**: melos project structure.
