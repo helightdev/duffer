@@ -53,4 +53,12 @@ extension ByteDataExtensions on ByteData {
     }
     return bytes;
   }
+
+  Uint8List getBytes(int offset, int length) {
+    var bytes = Uint8List(length);
+    for (var i = 0; i < length; i++) {
+      bytes[i] = getUint8(i + offset);
+    }
+    return bytes;
+  }
 }

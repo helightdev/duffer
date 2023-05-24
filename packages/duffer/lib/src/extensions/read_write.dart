@@ -4,6 +4,12 @@ part of '../extensions.dart';
 /// data based on the [readerIndex] and [writerIndex].
 extension ReadWriteExtension on ByteBuf {
 
+  Int64 readFixNumInt64([Endian? endian]) => readByteData(8)
+      .getInt64FN(0, endian ?? kEndianness);
+
+  void writeFixNumInt64(Int64 value, [Endian? endian]) => writeByteData(8)
+      .setInt64FN(0, value, endian ?? kEndianness);
+
   /// Store nullability information about [value] in a single byte, representing
   /// null as 0x00 and any value as 0xFF and executes [converter] if the value
   /// is not null.
@@ -76,7 +82,7 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
   void writeInt64(int value, [Endian? endian]) =>
-      writeByteData(8).setInt64(0, value, endian ?? kEndianness);
+      writeByteData(8).setInt64Duffer(0, value, endian ?? kEndianness);
 
   /// Reads the next 8 bytes as a signed integer
   /// at the current [readerIndex] (inclusive).
@@ -92,7 +98,7 @@ extension ReadWriteExtension on ByteBuf {
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
   int readInt64([Endian? endian]) =>
-      readByteData(8).getInt64(0, endian ?? kEndianness);
+      readByteData(8).getInt64Duffer(0, endian ?? kEndianness);
 
   /// Writes the [value] as a 4 byte long signed integer
   /// at the current [writerIndex] (inclusive).
@@ -194,7 +200,7 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
   void writeUint64(int value, [Endian? endian]) =>
-      writeByteData(8).setUint64(0, value, endian ?? kEndianness);
+      writeByteData(8).setUint64Duffer(0, value, endian ?? kEndianness);
 
   /// Reads the next 8 bytes as an unsigned integer
   /// at the current [readerIndex] (inclusive).
@@ -210,7 +216,7 @@ extension ReadWriteExtension on ByteBuf {
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
   int readUint64([Endian? endian]) =>
-      readByteData(8).getUint64(0, endian ?? kEndianness);
+      readByteData(8).getUint64Duffer(0, endian ?? kEndianness);
 
   /// Writes the [value] as a 4 byte long unsigned integer
   /// at the current [writerIndex] (inclusive).

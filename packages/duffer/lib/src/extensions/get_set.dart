@@ -7,10 +7,15 @@ extension GetSetExtension on ByteBuf {
   void setBool(int index, bool value) => setByte(index, value ? 0xFF : 0x00);
   bool getBool(int index) => getByte(index) == 0xFF;
 
+  void setFixNumInt64(int index, Int64 value, [Endian? endian]) =>
+      setByteData(index, 8).setInt64FN(0, value, endian ?? kEndianness);
+  Int64 getFixNumInt64(int index, [Endian? endian]) =>
+      getByteData(index, 8).getInt64FN(0, endian ?? kEndianness);
+
   void setInt64(int index, int value, [Endian? endian]) =>
-      setByteData(index, 8).setInt64(0, value, endian ?? kEndianness);
+      setByteData(index, 8).setInt64Duffer(0, value, endian ?? kEndianness);
   int getInt64(int index, [Endian? endian]) =>
-      getByteData(index, 8).getInt64(0, endian ?? kEndianness);
+      getByteData(index, 8).getInt64Duffer(0, endian ?? kEndianness);
 
   void setInt32(int index, int value, [Endian? endian]) =>
       setByteData(index, 4).setInt32(0, value, endian ?? kEndianness);
@@ -26,9 +31,9 @@ extension GetSetExtension on ByteBuf {
   int getInt8(int index) => getByteData(index, 1).getInt8(0);
 
   void setUint64(int index, int value, [Endian? endian]) =>
-      setByteData(index, 8).setUint64(0, value, endian ?? kEndianness);
+      setByteData(index, 8).setUint64Duffer(0, value, endian ?? kEndianness);
   int getUint64(int index, [Endian? endian]) =>
-      getByteData(index, 8).getUint64(0, endian ?? kEndianness);
+      getByteData(index, 8).getUint64Duffer(0, endian ?? kEndianness);
 
   void setUint32(int index, int value, [Endian? endian]) =>
       setByteData(index, 4).setUint32(0, value, endian ?? kEndianness);

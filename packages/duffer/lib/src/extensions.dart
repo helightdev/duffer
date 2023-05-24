@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:fixnum/fixnum.dart';
+
 import 'bytebuf_base.dart';
+import 'platform.dart';
 import 'impl/list_buffer.dart';
 import 'utils/constants.dart';
 
