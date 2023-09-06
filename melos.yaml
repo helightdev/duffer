@@ -7,3 +7,12 @@ scripts:
     name: copy-readme
     description: 'Copies the root-Readme to the duffer package'
     run: cp README.md packages/duffer/README.md
+
+  test:
+    description: Run tests in a specific package.
+    run: dart test
+    exec:
+      concurrency: 1
+    packageFilters:
+      dirExists:
+        - test
