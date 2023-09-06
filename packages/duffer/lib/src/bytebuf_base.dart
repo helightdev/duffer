@@ -617,6 +617,35 @@ abstract class ByteBuf {
     buf.writerIndex = data.length;
     return buf;
   }
+
+  /// Find bytes in a ByteBuf
+  /// Returns the number of bytes between the readerIndex of the haystack and
+  /// the first needle found in the haystack.  -1 is returned if no needle is
+  /// found in the haystack.
+  static int indexOf(ByteBuf haystack, ByteBuf needle) {
+    for (int i = haystack.readerIndex; i < haystack.writerIndex; i ++) {
+      int haystackIndex = i;
+      int needleIndex;
+      for (needleIndex = 0; needleIndex < needle.capacity(); needleIndex ++) {
+        if (haystack.getByte(haystackIndex) != needle.getByte(needleIndex)) {
+          break;
+        } else {
+          haystackIndex ++;
+          if (haystackIndex == haystack.writerIndex &&
+              needleIndex != needle.capacity() - 1) {
+            return -1;
+          }
+        }
+      }
+
+      if (needleIndex == needle.capacity()) {
+        // Found the needle from the haystack!
+        return i - haystack.readerIndex;
+      }
+    }
+    return -1;
+  }
+
 }
 
 class LinkedWriteMarker {
