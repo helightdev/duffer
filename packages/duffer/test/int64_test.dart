@@ -10,7 +10,6 @@ void main() {
       num += num;
       var buf = Unpooled.fixed(8);
       buf.writeFixNumInt64(num);
-      print(buf.hexdump);
       var read = buf.readFixNumInt64().toUnsigned(64);
       expect(num, read);
     });
@@ -18,7 +17,6 @@ void main() {
       var num = Int64.parseHex("FFFFFFFFFFFFFFFF");
       var buf = Unpooled.fixed(8);
       buf.writeFixNumInt64(num);
-      print(buf.hexdump);
       var read = buf.readFixNumInt64();
       expect(num, read);
     });

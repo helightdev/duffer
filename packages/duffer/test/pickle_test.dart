@@ -39,7 +39,6 @@ void main() {
         ExampleObject("Conan", 30)
       ];
       var dumped = pickles.dump(expected);
-      print(dumped.hexdump);
       var actual = pickles.load(dumped);
       expect(actual, expected);
     });
@@ -51,7 +50,6 @@ void main() {
         ExampleObject("Conan", 30)
       };
       var dumped = pickles.dump(expected);
-      print(dumped.hexdump);
       var actual = pickles.load(dumped);
       expect(actual, expected);
     });
