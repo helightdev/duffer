@@ -618,31 +618,52 @@ abstract class ByteBuf {
     return buf;
   }
 
-  /// Find bytes in a ByteBuf
-  /// Returns the number of bytes between the readerIndex of the haystack and
-  /// the first needle found in the haystack.  -1 is returned if no needle is
-  /// found in the haystack.
+  /// Searches for the first occurrence of a [needle] within a [haystack] and returns
+  /// the index of the first occurrence, or -1 if not found.
+  ///
+  /// This method iterates through the [haystack] byte-by-byte, attempting to match
+  /// it with the [needle]. If a match is found, it returns the starting index of
+  /// the match within the [haystack].
+  ///
+  /// If the [needle] is not found in the [haystack], the method returns -1.
+  ///
+  /// The search begins at the current reader index of the [haystack], and it does
+  /// not modify the reader index during the search.
+  ///
+  /// Example:
+  /// ```dart
+  /// ByteBuf haystack = ByteBuf.fromData([1, 2, 3, 4, 5, 6, 7]);
+  /// ByteBuf needle = ByteBuf.fromData([3, 4]);
+  /// int index = ByteBuf.indexOf(haystack, needle); // Returns 2
+  /// ```
+  ///
+  /// If the [needle] is longer than the remaining bytes in the [haystack] from
+  /// the current reader index, the method will not find a match.
   static int indexOf(ByteBuf haystack, ByteBuf needle) {
+    if (needle.readableBytes > haystack.readableBytes) return -1;
+    int needleIndex;
     for (int i = haystack.readerIndex; i < haystack.writerIndex; i ++) {
       int haystackIndex = i;
-      int needleIndex;
       for (needleIndex = 0; needleIndex < needle.capacity(); needleIndex ++) {
         if (haystack.getByte(haystackIndex) != needle.getByte(needleIndex)) {
+          // If a mismatch is found, break out of the inner loop.
           break;
         } else {
           haystackIndex ++;
           if (haystackIndex == haystack.writerIndex &&
               needleIndex != needle.capacity() - 1) {
+            // If the end of the haystack is reached before the needle, return -1.
             return -1;
           }
         }
       }
 
       if (needleIndex == needle.capacity()) {
-        // Found the needle from the haystack!
+        // Found a complete match for the needle in the haystack.
         return i - haystack.readerIndex;
       }
     }
+    // If no match is found, return -1.
     return -1;
   }
 
