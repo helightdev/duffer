@@ -1,3 +1,8 @@
+## 2.2.0
+
+ - **REFACTOR**: optimize indexOf a bit and add more comments.
+ - **FEAT**: add ByteBuf.indexOf.
+
 ## 2.1.0
 
  - **FEAT**: add basic support for int64 on web using fixnum and approximated ints.
