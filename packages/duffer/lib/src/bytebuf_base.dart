@@ -597,15 +597,13 @@ abstract class ByteBuf {
 
   static ByteBuf create({int? initialCapacity, int? maxCapacity}) {
     var buffer = ArrayBuffer(Uint8List(initialCapacity ?? kDefaultByteBufSize));
-    buffer.maxCapacity =
-        maxCapacity ?? initialCapacity ?? kDefaultMaxByteBufSize;
+    buffer.maxCapacity = maxCapacity ?? kDefaultMaxByteBufSize;
     return buffer;
   }
 
   static ArrayBuffer createHeap({int? initialCapacity, int? maxCapacity}) {
     var buffer = ArrayBuffer(Uint8List(initialCapacity ?? kDefaultByteBufSize));
-    buffer.maxCapacity =
-        maxCapacity ?? initialCapacity ?? kDefaultMaxByteBufSize;
+    buffer.maxCapacity = maxCapacity ?? kDefaultMaxByteBufSize;
     return buffer;
   }
 
