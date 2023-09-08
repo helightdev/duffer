@@ -1,3 +1,33 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## 2023-09-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`duffer` - `v2.3.0`](#duffer---v230)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+---
+
+#### `duffer` - `v2.3.0`
+
+ - Decided against a mayor release because the change should not affact many use-cases.
+
+ - **FIX**: remove unexpected behaviour which sets the max capacity to the initial capacity if specified.
+ - **DOCS**: add missing documentation.
+ - **DOCS**: add a load of new documentation.
+ - **BREAKING** **REFACTOR**: use Uint8List instead of List<int> and use a wrapped buffer for parseHex().
+
 ## 1.0.0
 - Start of the tracked change log
 

@@ -1,3 +1,14 @@
+## 2.3.0
+
+> Note: This release has breaking changes.
+
+ - Decided against a mayor release because the change should not affact many use-cases.
+
+ - **FIX**: remove unexpected behaviour which sets the max capacity to the initial capacity if specified.
+ - **DOCS**: add missing documentation.
+ - **DOCS**: add a load of new documentation.
+ - **BREAKING** **REFACTOR**: use Uint8List instead of List<int> and use a wrapped buffer for parseHex().
+
 ## 2.2.0
 
  - **REFACTOR**: optimize indexOf a bit and add more comments.
