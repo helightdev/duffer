@@ -25,12 +25,14 @@ extension Uint8ListMigrationExtension on Uint8List {
 
 extension StringDecodingExtension on String {
   /// Decodes the [base64](https://tools.ietf.org/html/rfc4648) string using [base64Decode] and wraps the
-  /// resulting uint8 list using [asWrappedBuffer] resulting in a **fixed length** buffer
+  /// resulting uint8 list using [ByteBuf.asWrappedBuffer] resulting in a **fixed length** buffer.
   ByteBuf parseBase64() {
     var buffer = base64Decode(this);
     return buffer.asWrappedBuffer;
   }
 
+  /// Decodes the [hex](https://en.wikipedia.org/wiki/Hexadecimal) string using [hexDecode] and wraps the
+  /// resulting uint8 list using [ByteBuf.asBuffer] resulting in a **fixed length** buffer.
   ByteBuf parseHex() {
     var buffer = hexDecode(this);
     return buffer.asWrappedBuffer;
@@ -42,11 +44,14 @@ extension IntListMigrationExtension on List<int> {
   ByteBuf get asBuffer => ByteBuf.fromData(
       this); // Also applies to uint8 list for non wrapping migration
 
+  /// Migrates this list by wrapping it using [Uint8List.fromList].
   Uint8List get uint8List => Uint8List.fromList(this);
 
 }
 
 extension ByteDataExtensions on ByteData {
+
+  /// Creates a [Uint8List] from the bytes in this [ByteData].
   Uint8List get uint8list {
     var bytes = Uint8List(lengthInBytes);
     for (var i = 0; i < lengthInBytes; i++) {
@@ -55,6 +60,8 @@ extension ByteDataExtensions on ByteData {
     return bytes;
   }
 
+  /// Creates a [Uint8List] from a subset of the bytes in this [ByteData].
+  /// [offset] represents the start index and [length] the amount of bytes to copy.
   Uint8List getBytes(int offset, int length) {
     var bytes = Uint8List(length);
     for (var i = 0; i < length; i++) {
