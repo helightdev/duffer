@@ -3,7 +3,6 @@ part of '../extensions.dart';
 /// Default extensions on [ByteBuf] for reading and writing
 /// data based on the [readerIndex] and [writerIndex].
 extension ReadWriteExtension on ByteBuf {
-
   /// Reads the next 8 bytes as a signed integer
   /// at the current [readerIndex] (inclusive).
   ///
@@ -17,8 +16,8 @@ extension ReadWriteExtension on ByteBuf {
   /// * [BufferOverreadException] if the length
   /// of the [readerIndex] + length is outside of the
   /// bounds of the buffer
-  Int64 readFixNumInt64([Endian? endian]) => readByteData(8)
-      .getInt64FN(0, endian ?? kEndianness);
+  Int64 readFixNumInt64([Endian? endian]) =>
+      readByteData(8).getInt64FN(0, endian ?? kEndianness);
 
   /// Writes the [value] as a 8 byte long signed integer
   /// at the current [writerIndex] (inclusive).
@@ -32,8 +31,8 @@ extension ReadWriteExtension on ByteBuf {
   ///
   /// * [BufferOverflowException] if the length
   /// of the resulting bytes would overflow the buffer
-  void writeFixNumInt64(Int64 value, [Endian? endian]) => writeByteData(8)
-      .setInt64FN(0, value, endian ?? kEndianness);
+  void writeFixNumInt64(Int64 value, [Endian? endian]) =>
+      writeByteData(8).setInt64FN(0, value, endian ?? kEndianness);
 
   /// Store nullability information about [value] in a single byte, representing
   /// null as 0x00 and any value as 0xFF and executes [converter] if the value

@@ -46,11 +46,9 @@ extension IntListMigrationExtension on List<int> {
 
   /// Migrates this list by wrapping it using [Uint8List.fromList].
   Uint8List get uint8List => Uint8List.fromList(this);
-
 }
 
 extension ByteDataExtensions on ByteData {
-
   /// Creates a [Uint8List] from the bytes in this [ByteData].
   Uint8List get uint8list {
     var bytes = Uint8List(lengthInBytes);

@@ -8,7 +8,6 @@ import 'package:meta/meta.dart';
 /// A [ByteBuf] that stores its data in a [RandomAccessFile].
 @experimental
 class RandomAccessFileByteBuf extends ByteBuf {
-
   RandomAccessFile file;
 
   RandomAccessFileByteBuf(this.file);
@@ -160,5 +159,4 @@ class RandomAccessFileByteBuf extends ByteBuf {
     flush();
     file.closeSync();
   }
-
 }

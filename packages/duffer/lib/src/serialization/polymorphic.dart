@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:duffer/duffer.dart';
 
 part 'advanced.dart';

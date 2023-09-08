@@ -14,8 +14,7 @@ void main() {
   print(buffer.writerIndex); // 6
 
   buffer.setUint16(
-      6, 0x1234
-  ); // This increments because its a multi byte write operation
+      6, 0x1234); // This increments because its a multi byte write operation
 
   print(buffer.writerIndex); // 8
   print(buffer.readerIndex); // 0

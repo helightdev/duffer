@@ -2,7 +2,6 @@ part of '../extensions.dart';
 
 /// Default extensions on [ByteBuf] for setting and getting data at specific indices.
 extension GetSetExtension on ByteBuf {
-
   /// Writes the [value] as a single byte using 0xFF as true and 0x00 as false at [index].
   void setBool(int index, bool value) => setByte(index, value ? 0xFF : 0x00);
 

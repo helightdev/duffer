@@ -27,10 +27,12 @@ extension DufferPlatformExt on ByteData {
   int getInt64Duffer(int offset, Endian endian) {
     return dufferPlatform.getInt64(this, offset, endian);
   }
+
   /// Reads an uint64 from the [ByteData] at [offset] using [endian].
   int getUint64Duffer(int offset, Endian endian) {
     return dufferPlatform.getUint64(this, offset, endian);
   }
+
   /// Writes an int64 to the [ByteData] at [offset] using [endian].
   void setInt64Duffer(int offset, int value, Endian endian) {
     dufferPlatform.setInt64(this, offset, value, endian);
@@ -74,6 +76,4 @@ extension DufferPlatformExt on ByteData {
       setUint8(offset + 7, bytes[0]);
     }
   }
-
 }
-

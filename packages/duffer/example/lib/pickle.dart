@@ -7,9 +7,8 @@ void main() {
   pickles.register(Person, personPickler); // Register pickler for Person
   pickles.register(House, housePickler); // Register pickler for House
 
-  var expected = House("Some Street 12", [
-    Person("Anna", 42), Person("Andrew", 45)
-  ]);
+  var expected =
+      House("Some Street 12", [Person("Anna", 42), Person("Andrew", 45)]);
   var encoded = pickles.dump(expected);
   print(encoded.base64); // 00000008756e6b6e6f776e310000006c...
 

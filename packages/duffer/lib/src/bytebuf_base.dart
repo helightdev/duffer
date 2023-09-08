@@ -651,14 +651,14 @@ abstract class ByteBuf {
   static int indexOf(ByteBuf haystack, ByteBuf needle) {
     if (needle.readableBytes > haystack.readableBytes) return -1;
     int needleIndex;
-    for (int i = haystack.readerIndex; i < haystack.writerIndex; i ++) {
+    for (int i = haystack.readerIndex; i < haystack.writerIndex; i++) {
       int haystackIndex = i;
-      for (needleIndex = 0; needleIndex < needle.capacity(); needleIndex ++) {
+      for (needleIndex = 0; needleIndex < needle.capacity(); needleIndex++) {
         if (haystack.getByte(haystackIndex) != needle.getByte(needleIndex)) {
           // If a mismatch is found, break out of the inner loop.
           break;
         } else {
-          haystackIndex ++;
+          haystackIndex++;
           if (haystackIndex == haystack.writerIndex &&
               needleIndex != needle.capacity() - 1) {
             // If the end of the haystack is reached before the needle, return -1.
@@ -675,7 +675,6 @@ abstract class ByteBuf {
     // If no match is found, return -1.
     return -1;
   }
-
 }
 
 class LinkedWriteMarker {
@@ -722,7 +721,6 @@ class LinkedReadMarker {
 
 /// [ByteBuf] implementation that forwards all methods to [backing].
 abstract class DelegatingByteBuf extends ByteBuf {
-
   ByteBuf get backing;
 
   @override
@@ -744,8 +742,10 @@ abstract class DelegatingByteBuf extends ByteBuf {
   void updateByte(int index, int byte) => backing.updateByte(index, byte);
 
   @override
-  ByteBuf viewBuffer(int index, int length) => backing.viewBuffer(index, length);
+  ByteBuf viewBuffer(int index, int length) =>
+      backing.viewBuffer(index, length);
 
   @override
-  ByteData viewByteData(int index, int length) => backing.viewByteData(index, length);
+  ByteData viewByteData(int index, int length) =>
+      backing.viewByteData(index, length);
 }

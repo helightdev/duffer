@@ -5,21 +5,23 @@ import 'package:duffer/duffer.dart';
 
 /// A [ByteBuf] that allows to consume a [Stream] of [List]s or [Uint8List]s.
 class StreamedByteBuf extends DelegatingByteBuf {
-
   @override
   ByteBuf backing;
 
   StreamedByteBuf(this.backing);
 
   final StreamController _doneController = StreamController.broadcast();
-  final StreamController<int> _dataController = StreamController<int>.broadcast();
+  final StreamController<int> _dataController =
+      StreamController<int>.broadcast();
   bool _isDone = false;
   bool _isSubscribed = false;
 
   /// Consumes a int [List] or [Uint8List] and writes the bytes to the backing
   /// buffer. Returns the [StreamSubscription] created by the [Stream.listen].
   StreamSubscription consume(Stream stream) {
-    if (_isSubscribed) throw Exception("Buffer is already subscribed to a stream");
+    if (_isSubscribed) {
+      throw Exception("Buffer is already subscribed to a stream");
+    }
     _isSubscribed = true;
     return stream.listen((event) {
       writeBytes(event);
@@ -70,5 +72,4 @@ class StreamedByteBuf extends DelegatingByteBuf {
   void reset() {
     _isDone = false;
   }
-
 }

@@ -7,16 +7,22 @@ import 'package:duffer/duffer.dart';
 class Sizes {
   /// The size of a **bool** in bytes.
   static const int bool = 1;
+
   /// The size of a **int8** in bytes.
   static const int int8 = 1;
+
   /// The size of a **int16** in bytes.
   static const int int16 = 2;
+
   /// The size of a **int32** in bytes.
   static const int int32 = 4;
+
   /// The size of a **int64** in bytes.
   static const int int64 = 8;
+
   /// The size of a **float32** in bytes.
   static const int float32 = 4;
+
   /// The size of a **float64** in bytes.
   static const int float64 = 8;
 

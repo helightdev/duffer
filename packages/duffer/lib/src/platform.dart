@@ -43,7 +43,6 @@ class DufferVmProvider extends DufferPlatformProvider {
   void setUint64(ByteData data, int offset, int value, Endian endian) {
     return data.setUint64(offset, value, endian);
   }
-
 }
 
 class DufferWebProvider extends DufferPlatformProvider {
@@ -114,5 +113,4 @@ class DufferWebProvider extends DufferPlatformProvider {
       data.setUint8(offset + 7, bytes[0]);
     }
   }
-
 }
