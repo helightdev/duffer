@@ -1,6 +1,7 @@
 part of '../extensions.dart';
 
-List<int> hexDecode(String string) {
+// This function takes a hexadecimal string as input and converts it into a int list.
+Uint8List hexDecode(String string) {
   var bytes = List<int>.empty(growable: true);
   var unformatted = string.replaceAll(" ", "").toLowerCase();
   if (unformatted.length % 2 != 0) {
@@ -10,7 +11,7 @@ List<int> hexDecode(String string) {
   for (var i = 0; i < unformatted.length; i += 2) {
     bytes.add(int.parse(unformatted.substring(i, i + 2), radix: 16));
   }
-  return bytes;
+  return Uint8List.fromList(bytes);
 }
 
 extension Uint8ListMigrationExtension on Uint8List {
@@ -32,7 +33,7 @@ extension StringDecodingExtension on String {
 
   ByteBuf parseHex() {
     var buffer = hexDecode(this);
-    return buffer.asBuffer;
+    return buffer.asWrappedBuffer;
   }
 }
 
