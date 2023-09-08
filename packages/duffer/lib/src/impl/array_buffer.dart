@@ -3,8 +3,9 @@ import 'dart:typed_data';
 import 'package:duffer/duffer.dart';
 import 'package:duffer/src/impl/byte_data_buffer.dart';
 
+/// A [ByteBuf] that is backed by a [Uint8List] and can be grown.
 class ArrayBuffer extends ByteBuf {
-  Uint8List _buffer = Uint8List(0);
+  Uint8List _buffer;
 
   ArrayBuffer(this._buffer);
 

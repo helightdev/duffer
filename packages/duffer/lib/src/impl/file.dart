@@ -5,6 +5,7 @@ import 'package:duffer/duffer.dart';
 import 'package:duffer/src/impl/byte_data_buffer.dart';
 import 'package:meta/meta.dart';
 
+/// A [ByteBuf] that stores its data in a [RandomAccessFile].
 @experimental
 class RandomAccessFileByteBuf extends ByteBuf {
 

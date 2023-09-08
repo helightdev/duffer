@@ -5,6 +5,8 @@ import '../bytebuf_base.dart';
 import '../extensions.dart';
 import 'byte_data_buffer.dart';
 
+/// A [ByteBuf] that is allocated by a [ByteBufAllocator] and can't be grown.
+/// The buffer can be disposed by calling [release].
 class FixedAllocatedBuffer extends ByteBuf with ReleasableByteBuf {
   ByteData data;
   ByteBufAllocator allocator;

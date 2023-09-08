@@ -4,6 +4,7 @@ import 'utils/migration_utils.dart';
 import 'bytebuf_base.dart';
 import 'extensions.dart';
 
+/// A utility class for creating unpooled [ByteBuf]s.
 class Unpooled {
   Unpooled._() {
     throw Exception("Can't construct static utility class");

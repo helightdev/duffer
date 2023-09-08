@@ -2,6 +2,7 @@ import 'bytebuf_base.dart';
 import 'bytebuf_allocator.dart';
 import 'allocators/instant_restructuring_allocator.dart';
 
+/// A utility class for creating [ByteBufAllocator]s.
 class Pooled {
   Pooled._() {
     throw Exception("Can't construct static utility class");

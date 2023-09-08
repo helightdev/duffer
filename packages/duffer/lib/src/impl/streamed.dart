@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:duffer/duffer.dart';
 
+/// A [ByteBuf] that allows to consume a [Stream] of [List]s or [Uint8List]s.
 class StreamedByteBuf extends DelegatingByteBuf {
 
   @override

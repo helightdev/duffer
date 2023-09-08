@@ -587,26 +587,37 @@ abstract class ByteBuf {
     return readOffset;
   }
 
+  /// Creates a fixed-length [ByteBuf] with a capacity of [size].
   static ByteBuf fixed(int size) => ByteDataBuffer.fixed(ByteData(size));
 
+  /// Creates a growable [ByteBuf] with an initial capacity of [size].
   static ByteBuf size(int size) {
     var buffer = ArrayBuffer(Uint8List(size));
     buffer.maxCapacity = kDefaultMaxByteBufSize;
     return buffer;
   }
 
+  /// Creates a growable [ByteBuf] with an initial capacity of [initialCapacity] and
+  /// a maximum capacity of [maxCapacity]. If [initialCapacity] is not specified,
+  /// [kDefaultByteBufSize] is used. If [maxCapacity] is not specified,
+  /// [kDefaultMaxByteBufSize] is used.
   static ByteBuf create({int? initialCapacity, int? maxCapacity}) {
     var buffer = ArrayBuffer(Uint8List(initialCapacity ?? kDefaultByteBufSize));
     buffer.maxCapacity = maxCapacity ?? kDefaultMaxByteBufSize;
     return buffer;
   }
 
+  /// Creates a growable [ByteBuf] with an initial capacity of [initialCapacity] and
+  /// a maximum capacity of [maxCapacity]. If [initialCapacity] is not specified,
+  /// [kDefaultByteBufSize] is used. If [maxCapacity] is not specified,
+  /// [kDefaultMaxByteBufSize] is used.
   static ArrayBuffer createHeap({int? initialCapacity, int? maxCapacity}) {
     var buffer = ArrayBuffer(Uint8List(initialCapacity ?? kDefaultByteBufSize));
     buffer.maxCapacity = maxCapacity ?? kDefaultMaxByteBufSize;
     return buffer;
   }
 
+  /// Creates a fixed-length [ByteBuf] from a int [List].
   static ByteBuf fromData(List<int> data) {
     var buf = fixed(data.length);
     for (int i = 0; i < data.length; i++) {

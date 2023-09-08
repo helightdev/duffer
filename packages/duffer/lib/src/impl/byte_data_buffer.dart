@@ -4,6 +4,7 @@ import '../bytebuf_base.dart';
 import '../extensions.dart';
 import '../utils/migration_utils.dart';
 
+/// A [ByteBuf] that is backed by a [ByteData].
 class ByteDataBuffer extends ByteBuf {
   ByteData data;
 

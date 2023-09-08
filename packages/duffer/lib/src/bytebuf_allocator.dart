@@ -41,8 +41,12 @@ abstract class ByteBufAllocator {
 }
 
 mixin ReleasableByteBuf on ByteBuf {
+  /// Releases the buffer.
   void release();
+
+  /// Whether the buffer has been released.
   bool isReleased();
 
+  /// Sets the released state of the buffer.
   void setReleasedInternal(bool released);
 }

@@ -4,9 +4,34 @@ part of '../extensions.dart';
 /// data based on the [readerIndex] and [writerIndex].
 extension ReadWriteExtension on ByteBuf {
 
+  /// Reads the next 8 bytes as a signed integer
+  /// at the current [readerIndex] (inclusive).
+  ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [ReadIndexOutOfRangeException] if the current
+  /// reader index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverreadException] if the length
+  /// of the [readerIndex] + length is outside of the
+  /// bounds of the buffer
   Int64 readFixNumInt64([Endian? endian]) => readByteData(8)
       .getInt64FN(0, endian ?? kEndianness);
 
+  /// Writes the [value] as a 8 byte long signed integer
+  /// at the current [writerIndex] (inclusive).
+  ///
+  /// [endian] the endianness of the number, defaults to [kEndianness] which is initialized with [Endian.big].
+  ///
+  /// ----
+  /// Exceptions:
+  /// * [WriteIndexOutOfRangeException] if the current
+  /// writer index is outside of the bounds of the buffer
+  ///
+  /// * [BufferOverflowException] if the length
+  /// of the resulting bytes would overflow the buffer
   void writeFixNumInt64(Int64 value, [Endian? endian]) => writeByteData(8)
       .setInt64FN(0, value, endian ?? kEndianness);
 

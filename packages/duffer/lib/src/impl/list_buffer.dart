@@ -4,6 +4,7 @@ import '../bytebuf_base.dart';
 import '../extensions.dart';
 import 'byte_data_buffer.dart';
 
+/// A [ByteBuf] that is backed by a [Uint8List] and can be grown.
 class ListBuffer extends ByteBuf {
   final Uint8List _backing;
 

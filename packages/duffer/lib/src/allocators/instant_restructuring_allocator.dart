@@ -4,6 +4,7 @@ import '../bytebuf_allocator.dart';
 import '../impl/allocated_buffer.dart';
 import '../utils/sum.dart';
 
+/// An allocator that restructures the backing buffer on every release.
 class InstantRestructuringAllocator extends ByteBufAllocator {
   final ArrayBuffer _backing;
   List<FixedAllocatedBuffer> children = List.empty(growable: true);

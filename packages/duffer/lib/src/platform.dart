@@ -5,6 +5,7 @@ import 'package:fixnum/fixnum.dart';
 
 const bool _kIsWeb = bool.fromEnvironment('dart.library.js_util');
 
+/// The [DufferPlatformProvider] is used to provide platform specific implementations.
 DufferPlatformProvider dufferPlatform = _getProvider();
 
 DufferPlatformProvider _getProvider() {
