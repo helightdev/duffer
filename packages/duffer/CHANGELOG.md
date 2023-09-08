@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - **REFACTOR**: reformat code and fix some style issues.
+
 ## 2.3.0
 
 > Note: This release has breaking changes.

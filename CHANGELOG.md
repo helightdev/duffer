@@ -11,6 +11,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Packages with breaking changes:
 
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`duffer` - `v2.3.1`](#duffer---v231)
+
+---
+
+#### `duffer` - `v2.3.1`
+
+ - **REFACTOR**: reformat code and fix some style issues.
+
+
+## 2023-09-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
  - [`duffer` - `v2.3.0`](#duffer---v230)
 
 Packages with other changes:
