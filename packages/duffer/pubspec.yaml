@@ -9,7 +9,7 @@ topics:
   - bytes
 
 environment:
-  sdk: '>=2.14.3 <3.0.0'
+  sdk: '>=2.14.3 <4.0.0'
 
 dependencies:
   meta: ^1.9.1
