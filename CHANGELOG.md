@@ -15,6 +15,25 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`duffer` - `v2.3.2`](#duffer---v232)
+
+---
+
+#### `duffer` - `v2.3.2`
+
+
+## 2023-09-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`duffer` - `v2.3.1`](#duffer---v231)
 
 ---

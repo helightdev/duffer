@@ -1,3 +1,5 @@
+## 2.3.2
+
 ## 2.3.1
 
  - **REFACTOR**: reformat code and fix some style issues.
